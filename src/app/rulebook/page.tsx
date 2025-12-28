@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -24,7 +25,7 @@ const rules = [
                 title: "2.1 Purse",
                 content: [
                     "Each house receives a fixed virtual purse of ₹80 crore.",
-                    "Purse cannot be increased or replenished.",
+                    "Purse cannot be replenished.",
                 ],
             },
             {
