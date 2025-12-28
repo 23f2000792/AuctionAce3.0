@@ -17,6 +17,12 @@ export const ParticleBackground = () => {
         let height = canvas.height = window.innerHeight;
 
         let particles: Particle[] = [];
+        const colors = [
+            'hsla(var(--primary), 0.7)',
+            'hsla(var(--secondary), 0.7)',
+            'hsla(var(--destructive), 0.5)',
+            'hsla(var(--foreground), 0.5)',
+        ];
 
         class Particle {
             x: number;
@@ -25,6 +31,8 @@ export const ParticleBackground = () => {
             directionY: number;
             size: number;
             color: string;
+            speedX: number;
+            speedY: number;
 
             constructor(x: number, y: number, directionX: number, directionY: number, size: number, color: string) {
                 this.x = x;
@@ -33,19 +41,23 @@ export const ParticleBackground = () => {
                 this.directionY = directionY;
                 this.size = size;
                 this.color = color;
+                this.speedX = directionX;
+                this.speedY = directionY;
             }
 
             draw() {
+                ctx!.beginPath();
+                ctx!.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
                 ctx!.fillStyle = this.color;
-                ctx!.fillRect(this.x, this.y, this.size, this.size);
+                ctx!.fill();
             }
 
             update() {
-                if (this.x > width || this.x < 0) {
-                    this.directionX = -this.directionX;
+                if (this.x > width + this.size || this.x < -this.size) {
+                    this.x = this.directionX > 0 ? -this.size : width + this.size;
                 }
-                if (this.y > height || this.y < 0) {
-                    this.directionY = -this.directionY;
+                if (this.y > height + this.size || this.y < -this.size) {
+                     this.y = this.directionY > 0 ? -this.size : height + this.size;
                 }
                 this.x += this.directionX;
                 this.y += this.directionY;
@@ -55,14 +67,14 @@ export const ParticleBackground = () => {
 
         function init() {
             particles = [];
-            let numberOfParticles = (width * height) / 9000;
+            let numberOfParticles = (width * height) / 12000;
             for (let i = 0; i < numberOfParticles; i++) {
-                let size = (Math.random() * 2) + 1;
-                let x = (Math.random() * (width - size * 2)) + size;
-                let y = (Math.random() * (height - size * 2)) + size;
+                let size = (Math.random() * 1.5) + 0.5;
+                let x = Math.random() * width;
+                let y = Math.random() * height;
                 let directionX = (Math.random() * 0.4) - 0.2;
                 let directionY = (Math.random() * 0.4) - 0.2;
-                let color = `hsla(var(--primary), 0.5)`;
+                let color = colors[Math.floor(Math.random() * colors.length)];
 
                 particles.push(new Particle(x, y, directionX, directionY, size, color));
             }

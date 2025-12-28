@@ -283,13 +283,13 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
                         {currentPlayer.reservePrice != null && currentPlayer.reservePrice > 0 &&
                            <motion.div variants={drawnPlayerItemVariants} className="flex flex-col p-3 bg-accent/10 rounded-lg border border-accent/30 backdrop-blur-sm">
                              <span className="text-sm text-accent font-bold uppercase tracking-wider">Reserve Price</span>
-                             <span className="font-mono font-semibold text-lg truncate text-accent-foreground">{currentPlayer.reservePrice} Lakh</span>
+                             <span className="font-mono font-semibold text-lg truncate text-foreground">{currentPlayer.reservePrice} Lakh</span>
                            </motion.div>
                         }
                         {currentPlayer.points != null &&
                           <motion.div variants={drawnPlayerItemVariants} className="flex flex-col p-3 bg-accent/10 rounded-lg border border-accent/30 backdrop-blur-sm">
                             <span className="text-sm text-accent font-bold uppercase tracking-wider">Points</span>
-                            <span className="font-mono font-semibold text-lg truncate text-accent-foreground">{currentPlayer.points}</span>
+                            <span className="font-mono font-semibold text-lg truncate text-foreground">{currentPlayer.points}</span>
                           </motion.div>
                         }
                     </motion.div>
