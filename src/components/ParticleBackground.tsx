@@ -36,10 +36,8 @@ export const ParticleBackground = () => {
             }
 
             draw() {
-                ctx!.beginPath();
-                ctx!.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
                 ctx!.fillStyle = this.color;
-                ctx!.fill();
+                ctx!.fillRect(this.x, this.y, this.size, this.size);
             }
 
             update() {
@@ -60,11 +58,10 @@ export const ParticleBackground = () => {
             let numberOfParticles = (width * height) / 9000;
             for (let i = 0; i < numberOfParticles; i++) {
                 let size = (Math.random() * 2) + 1;
-                let x = (Math.random() * (width - size * 2 - size * 2)) + size * 2;
-                let y = (Math.random() * (height - size * 2 - size * 2)) + size * 2;
+                let x = (Math.random() * (width - size * 2)) + size;
+                let y = (Math.random() * (height - size * 2)) + size;
                 let directionX = (Math.random() * 0.4) - 0.2;
                 let directionY = (Math.random() * 0.4) - 0.2;
-                // Use HSL colors from the theme, but with lower saturation and lightness for a subtle effect
                 let color = `hsla(var(--primary), 0.5)`;
 
                 particles.push(new Particle(x, y, directionX, directionY, size, color));
@@ -95,5 +92,5 @@ export const ParticleBackground = () => {
 
     }, []);
 
-    return <canvas ref={canvasRef} className="fixed top-0 left-0 w-full h-full -z-10 bg-background" />;
+    return <canvas ref={canvasRef} className="fixed top-0 left-0 w-full h-full -z-10" />;
 };

@@ -211,10 +211,7 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
             className="w-full"
           >
             <Card 
-              className="w-full aspect-video flex flex-col items-center justify-center text-center bg-card/60 backdrop-blur-md border-primary/20 glow-border relative overflow-hidden"
-              style={{
-                boxShadow: 'inset 0 0 40px hsl(var(--foreground) / 0.1)',
-              }}
+              className="w-full aspect-video flex flex-col items-center justify-center text-center bg-card/80 backdrop-blur-md border-primary/20 glow-border relative overflow-hidden"
             >
               
               <CardContent className="p-6 w-full z-10">
@@ -227,7 +224,7 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
                       transition={{ duration: 0.3 }}
                       className="text-center"
                     >
-                      <p className="font-mono text-2xl sm:text-4xl font-bold text-foreground/50 animate-pulse">
+                      <p className="font-mono text-2xl sm:text-4xl font-bold text-muted-foreground animate-pulse">
                         #{drawingDisplayPlayer?.playerNumber || '??'}
                       </p>
                       <h1 className="text-5xl sm:text-7xl mt-2 text-primary font-headline" style={{ textShadow: '0 0 15px hsl(var(--primary) / 0.6)' }}>
@@ -240,7 +237,7 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
                       initial={{ opacity: 0, scale: 0.5 }}
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ delay: 0.2, duration: 0.3 }}
-                      className="font-mono text-2xl sm:text-4xl font-bold text-foreground/50"
+                      className="font-mono text-2xl sm:text-4xl font-bold text-muted-foreground"
                     >
                       #{currentPlayer.playerNumber}
                     </motion.p>
@@ -299,13 +296,13 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
                   </div>
                 ) : (
                   <div className="text-center">
-                    <Users className="h-24 w-24 sm:h-32 sm:w-32 mx-auto text-foreground/40" />
+                    <Users className="h-24 w-24 sm:h-32 sm:w-32 mx-auto text-muted-foreground" />
                     <h1 className="text-4xl sm:text-6xl font-headline mt-4">
                       {undrawnPlayers.length > 0
                         ? 'Ready to Draw'
                         : 'Auction Complete!'}
                     </h1>
-                     <p className="text-foreground/60 mt-2 text-lg">
+                     <p className="text-muted-foreground mt-2 text-lg">
                        {undrawnPlayers.length > 0 ? 'Click "Draw Player" to begin.' : 'All players have been drawn.'}
                     </p>
                   </div>
@@ -338,7 +335,7 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
               Reset Auction
             </Button>
         )}
-        <p className="text-sm text-foreground/50">
+        <p className="text-sm text-muted-foreground">
           {undrawnPlayers.length} / {players.length} players remaining
         </p>
       </div>
