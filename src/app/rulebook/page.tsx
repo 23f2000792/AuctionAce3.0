@@ -246,7 +246,7 @@ export default function RulebookPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
         >
-            <Card className="glow-border bg-card/70 backdrop-blur-sm overflow-hidden h-[80vh] flex flex-col">
+            <Card className="bg-card/90 backdrop-blur-sm overflow-hidden h-[80vh] flex flex-col">
                 <CardHeader>
                     <CardTitle className="flex items-center text-3xl">
                         <BookOpen className="mr-3 h-8 w-8 text-primary" />
@@ -269,10 +269,10 @@ export default function RulebookPage() {
                                             "flex items-center justify-between text-left p-2 rounded-md text-sm font-medium transition-colors w-full",
                                             activeRuleIndex === index 
                                                 ? "bg-primary text-primary-foreground" 
-                                                : "hover:bg-muted/50 text-muted-foreground hover:text-foreground"
+                                                : "hover:bg-muted text-muted-foreground hover:text-foreground"
                                         )}
                                     >
-                                        <span>{rule.section}</span>
+                                        <span className="truncate">{rule.section}</span>
                                         {activeRuleIndex === index && <ChevronRight className="h-4 w-4 shrink-0 ml-2" />}
                                     </button>
                                 ))}
@@ -302,14 +302,14 @@ export default function RulebookPage() {
                                         
                                         {activeRule.subsections && activeRule.subsections.map((sub, subIndex) => (
                                             <div key={subIndex} className="ml-4 space-y-3 pt-3">
-                                                <h4 className="font-bold text-xl text-foreground/90">{sub.title}</h4>
+                                                <h4 className="font-bold text-xl text-foreground/90 font-headline">{sub.title}</h4>
                                                 <div className="ml-4 space-y-2 border-l-2 border-primary/20 pl-4">
                                                     {sub.content && sub.content.map((text, i) => (
                                                         <p key={i} className="list-item list-disc list-inside">{text.includes(':') ? <><span className="font-semibold text-foreground/80">{text.split(':')[0]}:</span>{text.substring(text.indexOf(':') + 1)}</> : text}</p>
                                                     ))}
                                                 </div>
                                                 {sub.table && (
-                                                        <div className="my-4 border border-border rounded-lg overflow-hidden glow-border">
+                                                        <div className="my-4 border border-border rounded-lg overflow-hidden">
                                                         <Table>
                                                             <TableHeader>
                                                                 <TableRow className="bg-primary/10">

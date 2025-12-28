@@ -1,5 +1,7 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
 
 @tailwind base;
 @tailwind components;
@@ -7,41 +9,41 @@
 
 @layer base {
   :root {
-    --background: 222 47% 11%; /* Deep Navy Blue */
-    --foreground: 210 40% 98%;
+    --background: 210 40% 98%; /* Very Light Blue/Grey */
+    --foreground: 222 47% 11%; /* Deep Navy Blue */
 
-    --card: 222 47% 15%;
-    --card-foreground: 210 40% 98%;
+    --card: 210 40% 100%;
+    --card-foreground: 222 47% 11%;
 
-    --popover: 222 47% 10%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 210 40% 100%;
+    --popover-foreground: 222 47% 11%;
+    
+    --primary: 45 90% 55%; /* Golden Yellow */
+    --primary-foreground: 222 47% 11%;
 
-    --primary: 199 85% 65%; /* Sporty Blue: #5ac9f1 */
-    --primary-foreground: 210 40% 98%;
+    --secondary: 205 90% 60%; /* Sky Blue */
+    --secondary-foreground: 210 40% 98%;
 
-    --secondary: 49 100% 57%; /* Vibrant Yellow: #ffd922 */
-    --secondary-foreground: 227 10% 15%;
-
-    --muted: 222 47% 25%;
+    --muted: 210 40% 90%;
     --muted-foreground: 215 20.2% 65.1%;
 
-    --accent: 49 100% 57%; /* Vibrant Yellow: #ffd922 */
-    --accent-foreground: 227 10% 15%;
+    --accent: 45 90% 60%; /* Lighter Golden Yellow */
+    --accent-foreground: 222 47% 11%;
 
-    --destructive: 1 69% 42%; /* Red: #b52221 */
+    --destructive: 0 84% 60%; /* Bright Red */
     --destructive-foreground: 210 40% 98%;
 
-    --border: 199 85% 55%;
-    --input: 222 47% 20%;
-    --ring: 199 85% 65%;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 45 90% 55%;
 
     --radius: 0.5rem;
 
-    --chart-1: 199 85% 65%;
-    --chart-2: 49 100% 57%;
-    --chart-3: 294 6% 48%;
-    --chart-4: 1 69% 42%;
-    --chart-5: 210 40% 80%;
+    --chart-1: 45 90% 55%;
+    --chart-2: 205 90% 60%;
+    --chart-3: 0 84% 60%;
+    --chart-4: 260 85% 60%;
+    --chart-5: 160 70% 50%;
   }
 }
 
@@ -56,6 +58,10 @@
   }
   h1, h2, h3, h4, h5, h6 {
     @apply font-bold tracking-tight;
+  }
+
+  .font-headline {
+    font-family: 'Press Start 2P', system-ui;
   }
 }
 

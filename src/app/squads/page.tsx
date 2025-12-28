@@ -73,7 +73,7 @@ export default function SquadsPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
         >
-            <Card className="glow-border bg-card/70 backdrop-blur-sm">
+            <Card className="bg-card/90 backdrop-blur-sm">
                 <CardHeader>
                     <CardTitle className="flex items-center text-3xl">
                         <ShieldCheck className="mr-3 h-8 w-8 text-primary" />
@@ -97,35 +97,35 @@ export default function SquadsPage() {
                                 accept=".csv"
                                 onChange={handleFileChange}
                                 disabled={isProcessing}
-                                className="file:text-primary file:font-bold"
+                                className="file:text-primary-foreground file:bg-primary file:hover:bg-primary/90 file:font-bold file:rounded-md file:px-3 file:py-1"
                             />
                             {isProcessing && <Loader2 className="h-5 w-5 animate-spin" />}
                         </CardContent>
                     </Card>
 
                     {squadData.length > 0 ? (
-                        <div className="border rounded-lg overflow-hidden glow-border">
+                        <div className="border rounded-lg overflow-hidden">
                             <Table>
                                 <TableHeader>
-                                    <TableRow className="bg-primary/10 hover:bg-primary/20">
-                                        <TableHead className="text-primary">House Name</TableHead>
-                                        <TableHead className="text-right text-primary">Money Spent</TableHead>
-                                        <TableHead className="text-right text-primary">Money Left</TableHead>
-                                        <TableHead className="text-center text-primary">Budget Used</TableHead>
-                                        <TableHead className="text-center text-primary">Budget Status</TableHead>
-                                        <TableHead className="text-center text-primary">Eligibility Status</TableHead>
-                                        <TableHead className="text-center text-primary">Total Points</TableHead>
+                                    <TableRow className="bg-muted hover:bg-muted/80">
+                                        <TableHead className="font-bold">House Name</TableHead>
+                                        <TableHead className="text-right font-bold">Money Spent</TableHead>
+                                        <TableHead className="text-right font-bold">Money Left</TableHead>
+                                        <TableHead className="text-center font-bold">Budget Used</TableHead>
+                                        <TableHead className="text-center font-bold">Budget Status</TableHead>
+                                        <TableHead className="text-center font-bold">Eligibility Status</TableHead>
+                                        <TableHead className="text-center font-bold">Total Points</TableHead>
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
                                     {squadData.map((house) => (
-                                        <TableRow key={house.name} className="bg-card/50">
+                                        <TableRow key={house.name}>
                                             <TableCell className="font-medium text-lg">{house.name}</TableCell>
                                             <TableCell className="text-right font-mono">{house.moneySpent} Cr</TableCell>
-                                            <TableCell className="text-right font-mono text-accent font-bold">{house.moneyLeft} Cr</TableCell>
+                                            <TableCell className="text-right font-mono text-primary font-bold">{house.moneyLeft} Cr</TableCell>
                                             <TableCell className="text-center font-mono">{house.budgetUsed}%</TableCell>
                                             <TableCell className="text-center">
-                                                <Badge variant={house.budgetStatus === 'OK' ? 'secondary' : 'destructive'} className="gap-1 items-center">
+                                                <Badge variant={house.budgetStatus === 'OK' ? 'default' : 'destructive'} className="gap-1 items-center bg-green-500 hover:bg-green-600 text-white">
                                                     {house.budgetStatus === 'OK' ? <CheckCircle className="h-3 w-3" /> : <AlertTriangle className="h-3 w-3" />}
                                                     {house.budgetStatus}
                                                 </Badge>
@@ -145,7 +145,7 @@ export default function SquadsPage() {
                     ) : (
                          <div className="text-center py-16 border-2 border-dashed border-border rounded-lg">
                             <Info className="mx-auto h-12 w-12 text-muted-foreground" />
-                            <h3 className="mt-4 text-lg font-medium">No Squad Data Uploaded</h3>
+                            <h3 className="mt-4 text-lg font-medium font-headline">No Squad Data Uploaded</h3>
                             <p className="mt-1 text-sm text-muted-foreground">Upload a CSV file using the control above to see the live squad status.</p>
                         </div>
                     )}
@@ -154,4 +154,3 @@ export default function SquadsPage() {
         </motion.div>
     );
 }
-

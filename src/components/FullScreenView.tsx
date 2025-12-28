@@ -49,7 +49,7 @@ const Starfield = () => {
   
       const draw = () => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = 'hsl(var(--primary-foreground))';
+        ctx.fillStyle = 'hsl(var(--foreground))';
         
         ctx.save();
         ctx.translate(canvas.width / 2, canvas.height / 2);
@@ -200,7 +200,7 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
 
 
   return (
-    <div className="fixed inset-0 flex flex-col items-center justify-center p-4 overflow-hidden">
+    <div className="fixed inset-0 flex flex-col items-center justify-center p-4 overflow-hidden bg-background">
       <AnimatePresence>
         {isSidebarOpen && (
           <motion.div
@@ -211,7 +211,7 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
             className="absolute top-0 left-0 h-full z-30 w-72"
           >
             <div className="h-full w-full bg-card/80 backdrop-blur-sm border-r border-primary/20 p-4 space-y-4">
-              <h3 className="text-xl font-bold text-primary-foreground">
+              <h3 className="text-xl font-bold text-primary-foreground font-headline">
                 Drawn Players ({drawnPlayers.length})
               </h3>
               <AnimatePresence>
@@ -226,13 +226,13 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
                       key={player.id}
                       layout
                       variants={drawnPlayerItemVariants}
-                      className="flex items-center gap-3 p-2 rounded-md bg-secondary/50"
+                      className="flex items-center gap-3 p-2 rounded-md bg-muted"
                     >
                       <span className="text-sm font-bold text-muted-foreground w-6">
                         {drawnPlayers.length - index}.
                       </span>
                       <span className="font-medium truncate">{player.playerName}</span>
-                      <span className="font-mono text-xs text-primary-foreground ml-auto">
+                      <span className="font-mono text-xs text-foreground ml-auto">
                         #{player.playerNumber}
                       </span>
                     </motion.li>
@@ -285,7 +285,7 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
                 boxShadow: 'inset 0 0 40px hsl(var(--primary) / 0.1)',
               }}
             >
-              <Starfield />
+              
               <CardContent className="p-6 w-full z-10">
                 {isDrawing ? (
                    <motion.div
@@ -353,14 +353,14 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
                           </motion.div>
                         }
                         {currentPlayer.reservePrice != null && currentPlayer.reservePrice > 0 &&
-                           <motion.div variants={drawnPlayerItemVariants} className="flex flex-col p-3 bg-secondary/10 rounded-lg border border-secondary/30 backdrop-blur-sm">
-                             <span className="text-sm text-secondary font-bold uppercase tracking-wider">Reserve Price</span>
+                           <motion.div variants={drawnPlayerItemVariants} className="flex flex-col p-3 bg-accent/10 rounded-lg border border-accent/30 backdrop-blur-sm">
+                             <span className="text-sm text-accent font-bold uppercase tracking-wider">Reserve Price</span>
                              <span className="font-mono font-semibold text-lg truncate">{currentPlayer.reservePrice} Lakh</span>
                            </motion.div>
                         }
                         {currentPlayer.points != null &&
-                          <motion.div variants={drawnPlayerItemVariants} className="flex flex-col p-3 bg-secondary/10 rounded-lg border border-secondary/30 backdrop-blur-sm">
-                            <span className="text-sm text-secondary font-bold uppercase tracking-wider">Points</span>
+                          <motion.div variants={drawnPlayerItemVariants} className="flex flex-col p-3 bg-accent/10 rounded-lg border border-accent/30 backdrop-blur-sm">
+                            <span className="text-sm text-accent font-bold uppercase tracking-wider">Points</span>
                             <span className="font-mono font-semibold text-lg truncate">{currentPlayer.points}</span>
                           </motion.div>
                         }
@@ -414,5 +414,3 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
     </div>
   );
 }
-
-    

@@ -83,9 +83,9 @@ export default function Home() {
       initial="hidden"
       animate="visible"
     >
-      <Card className="glow-border bg-card/70 backdrop-blur-sm">
+      <Card className="bg-card/90 backdrop-blur-sm border-border">
         <CardHeader>
-          <CardTitle className="text-3xl">Select a Player Set</CardTitle>
+          <CardTitle>Select a Player Set</CardTitle>
           <CardDescription>
             {user ? "Choose one of the available sets to begin an auction." : "Choose a set to start an auction or log in to manage your sets."}
           </CardDescription>
@@ -104,13 +104,13 @@ export default function Home() {
                     key={set.id}
                     variants={cardVariants}
                   >
-                    <Card className="hover:border-primary/50 transition-all flex flex-col h-full bg-gradient-to-br from-card/80 to-card/50 hover:from-card/90 glow-border hover:-translate-y-1">
+                    <Card className="hover:border-primary/50 transition-all flex flex-col h-full bg-card hover:-translate-y-1 hover:shadow-lg">
                       <CardHeader className="p-4 flex-row items-start justify-between">
-                         <CardTitle className="text-lg truncate">{set.name}</CardTitle>
+                         <CardTitle className="text-lg truncate font-bold">{set.name}</CardTitle>
                       </CardHeader>
                       <CardContent className="p-4 pt-0 flex-grow">
                          <div className="flex flex-col items-start text-sm text-muted-foreground">
-                            <span className="text-xs uppercase font-bold tracking-wider text-accent">Players</span>
+                            <span className="text-xs uppercase font-bold tracking-wider text-primary">Players</span>
                             <span className="text-4xl font-mono font-bold text-foreground">{set.players.length}</span>
                          </div>
                       </CardContent>
@@ -133,7 +133,7 @@ export default function Home() {
                 exit={{ opacity: 0, y: -20 }}
               >
                   <Layers className="mx-auto h-12 w-12 text-muted-foreground" />
-                  <h3 className="mt-4 text-lg font-medium">{user ? "No Sets Found" : "Welcome to Auction Ace"}</h3>
+                  <h3 className="mt-4 text-lg font-medium font-headline">{user ? "No Sets Found" : "Welcome to Auction Ace"}</h3>
                   <p className="mt-1 text-sm text-muted-foreground">{user ? "Get started by importing players from a CSV." : "Log in to create and manage your player auctions."}</p>
                   
                   {!user && !isUserLoading && (

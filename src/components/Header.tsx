@@ -29,7 +29,7 @@ const Header = () => {
 
   const NavContent = () => (
     <>
-      { !isUserLoading && user && (
+      { !isUserLoading && (
         <div className='flex flex-col md:flex-row items-stretch md:items-center gap-2'>
             <Button variant="ghost" asChild>
                 <Link href="/squads" onClick={() => setIsSheetOpen(false)}>
@@ -42,32 +42,34 @@ const Header = () => {
                 </Link>
             </Button>
 
-            <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    <Button variant="ghost">Manage <ChevronDown className="ml-1 h-4 w-4" /></Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                    <DropdownMenuItem asChild>
-                        <Link href="/players">
-                            <Users className="mr-2 h-4 w-4" />
-                            <span>Manage Players</span>
-                        </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
-                         <Link href="/sets/create">
-                            <PlusCircle className="mr-2 h-4 w-4" />
-                            <span>Create Set</span>
-                        </Link>
-                    </DropdownMenuItem>
-                     <DropdownMenuSeparator />
-                    <DropdownMenuItem asChild>
-                         <Link href="/import">
-                            <Upload className="mr-2 h-4 w-4" />
-                            <span>Import CSV</span>
-                        </Link>
-                    </DropdownMenuItem>
-                </DropdownMenuContent>
-            </DropdownMenu>
+            { user &&
+              <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                      <Button variant="ghost">Manage <ChevronDown className="ml-1 h-4 w-4" /></Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                      <DropdownMenuItem asChild>
+                          <Link href="/players">
+                              <Users className="mr-2 h-4 w-4" />
+                              <span>Manage Players</span>
+                          </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                          <Link href="/sets/create">
+                              <PlusCircle className="mr-2 h-4 w-4" />
+                              <span>Create Set</span>
+                          </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem asChild>
+                          <Link href="/import">
+                              <Upload className="mr-2 h-4 w-4" />
+                              <span>Import CSV</span>
+                          </Link>
+                      </DropdownMenuItem>
+                  </DropdownMenuContent>
+              </DropdownMenu>
+            }
         </div>
       )}
       <div className="flex items-center gap-2">
@@ -89,11 +91,11 @@ const Header = () => {
   );
 
   return (
-    <header className="w-full border-b border-primary/20 bg-background/80 backdrop-blur-sm z-20 sticky top-0">
+    <header className="w-full border-b border-border bg-background/80 backdrop-blur-sm z-20 sticky top-0">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <Link href="/" className="flex items-center gap-2 group">
           <Gavel className="h-8 w-8 text-primary transition-transform group-hover:scale-110" />
-          <span className="text-2xl font-bold tracking-tighter">Auction Ace</span>
+          <span className="text-xl font-headline tracking-tighter">Auction Ace</span>
         </Link>
         
         {/* Desktop Navigation */}
