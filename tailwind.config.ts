@@ -19,10 +19,6 @@ const config = {
       },
     },
     extend: {
-      fontFamily: {
-        sans: ["'Roboto Mono'", "monospace"],
-        headline: ["'Press Start 2P'", "system-ui"],
-      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

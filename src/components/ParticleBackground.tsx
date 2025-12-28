@@ -3,6 +3,56 @@
 
 import { useEffect, useRef } from 'react';
 
+// A simple 2D Vector class
+class Vector {
+    x: number;
+    y: number;
+
+    constructor(x = 0, y = 0) {
+        this.x = x;
+        this.y = y;
+    }
+
+    add(v: Vector) {
+        this.x += v.x;
+        this.y += v.y;
+        return this;
+    }
+}
+
+// The particle class
+class Particle {
+    pos: Vector;
+    vel: Vector;
+    size: number;
+    color: string;
+    
+    constructor(x: number, y: number, color: string) {
+        this.pos = new Vector(x, y);
+        this.vel = new Vector(Math.random() - 0.5, Math.random() - 0.5);
+        this.size = Math.random() * 2 + 1;
+        this.color = color;
+    }
+
+    update(ctx: CanvasRenderingContext2D, width: number, height: number) {
+        this.pos.add(this.vel);
+
+        // Bounce off walls
+        if (this.pos.x < 0 || this.pos.x > width) this.vel.x *= -1;
+        if (this.pos.y < 0 || this.pos.y > height) this.vel.y *= -1;
+
+        this.draw(ctx);
+    }
+
+    draw(ctx: CanvasRenderingContext2D) {
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        ctx.arc(this.pos.x, this.pos.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+    }
+}
+
+
 export const ParticleBackground = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -15,8 +65,8 @@ export const ParticleBackground = () => {
 
         let width = canvas.width = window.innerWidth;
         let height = canvas.height = window.innerHeight;
-
         let particles: Particle[] = [];
+        
         const colors = [
             'hsla(var(--primary), 0.7)',
             'hsla(var(--secondary), 0.7)',
@@ -24,70 +74,37 @@ export const ParticleBackground = () => {
             'hsla(var(--foreground), 0.5)',
         ];
 
-        class Particle {
-            x: number;
-            y: number;
-            directionX: number;
-            directionY: number;
-            size: number;
-            color: string;
-            speedX: number;
-            speedY: number;
-
-            constructor(x: number, y: number, directionX: number, directionY: number, size: number, color: string) {
-                this.x = x;
-                this.y = y;
-                this.directionX = directionX;
-                this.directionY = directionY;
-                this.size = size;
-                this.color = color;
-                this.speedX = directionX;
-                this.speedY = directionY;
-            }
-
-            draw() {
-                ctx!.beginPath();
-                ctx!.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
-                ctx!.fillStyle = this.color;
-                ctx!.fill();
-            }
-
-            update() {
-                if (this.x > width + this.size || this.x < -this.size) {
-                    this.x = this.directionX > 0 ? -this.size : width + this.size;
-                }
-                if (this.y > height + this.size || this.y < -this.size) {
-                     this.y = this.directionY > 0 ? -this.size : height + this.size;
-                }
-                this.x += this.directionX;
-                this.y += this.directionY;
-                this.draw();
-            }
-        }
-
-        function init() {
+        const init = () => {
             particles = [];
-            let numberOfParticles = (width * height) / 12000;
-            for (let i = 0; i < numberOfParticles; i++) {
-                let size = (Math.random() * 1.5) + 0.5;
-                let x = Math.random() * width;
-                let y = Math.random() * height;
-                let directionX = (Math.random() * 0.4) - 0.2;
-                let directionY = (Math.random() * 0.4) - 0.2;
-                let color = colors[Math.floor(Math.random() * colors.length)];
-
-                particles.push(new Particle(x, y, directionX, directionY, size, color));
+            const numParticles = (width * height) / 10000;
+            for (let i = 0; i < numParticles; i++) {
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                particles.push(new Particle(Math.random() * width, Math.random() * height, color));
             }
-        }
+        };
 
-        function animate() {
+        const animate = () => {
+            ctx.clearRect(0, 0, width, height);
+            
+            // Draw lines between nearby particles
+            for(let i = 0; i < particles.length; i++) {
+                for(let j = i; j < particles.length; j++) {
+                    const dist = Math.hypot(particles[i].pos.x - particles[j].pos.x, particles[i].pos.y - particles[j].pos.y);
+                    if (dist < 100) {
+                        ctx.strokeStyle = particles[i].color;
+                        ctx.lineWidth = 0.2;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].pos.x, particles[i].pos.y);
+                        ctx.lineTo(particles[j].pos.x, particles[j].pos.y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            
+            particles.forEach(p => p.update(ctx, width, height));
+
             requestAnimationFrame(animate);
-            ctx!.clearRect(0, 0, width, height);
-
-            for (let i = 0; i < particles.length; i++) {
-                particles[i].update();
-            }
-        }
+        };
         
         const handleResize = () => {
             width = canvas.width = window.innerWidth;
@@ -104,5 +121,5 @@ export const ParticleBackground = () => {
 
     }, []);
 
-    return <canvas ref={canvasRef} className="fixed top-0 left-0 w-full h-full -z-10" />;
+    return <canvas ref={canvasRef} className="fixed top-0 left-0 w-full h-full -z-10 bg-background" />;
 };

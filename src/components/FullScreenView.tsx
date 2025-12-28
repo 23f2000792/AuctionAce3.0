@@ -98,12 +98,11 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
   }, [handleKeyDown, stopDrawingAnimation]);
 
   const cardVariants = {
-    hidden: { opacity: 0, y: 100, scale: 0.8, filter: 'blur(10px)' },
+    hidden: { opacity: 0, y: 100, scale: 0.8 },
     visible: {
       opacity: 1,
       y: 0,
       scale: 1,
-      filter: 'blur(0px)',
       transition: {
         duration: 0.5,
         type: 'spring',
@@ -111,7 +110,7 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
         damping: 15,
       },
     },
-    exit: { opacity: 0, y: -100, scale: 0.8, filter: 'blur(10px)' },
+    exit: { opacity: 0, y: -100, scale: 0.8 },
   };
   
   const drawnPlayerListVariants = {
@@ -131,7 +130,7 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
 
 
   return (
-    <div className="fixed inset-0 flex flex-col items-center justify-center p-4 overflow-hidden">
+    <div className="fixed inset-0 bg-background flex flex-col items-center justify-center p-4 overflow-hidden">
       <AnimatePresence>
         {isSidebarOpen && (
           <motion.div
@@ -141,8 +140,8 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
             transition={{ duration: 0.3, ease: 'easeInOut' }}
             className="absolute top-0 left-0 h-full z-30 w-72"
           >
-            <div className="h-full w-full bg-background/80 backdrop-blur-sm border-r border-primary/20 p-4 space-y-4">
-              <h3 className="text-xl font-bold text-foreground font-headline">
+            <div className="h-full w-full bg-background/80 backdrop-blur-sm border-r border-border/50 p-4 space-y-4">
+              <h3 className="text-xl font-bold text-foreground">
                 Drawn Players ({drawnPlayers.length})
               </h3>
               <AnimatePresence>
@@ -163,7 +162,7 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
                         {drawnPlayers.length - index}.
                       </span>
                       <span className="font-medium truncate text-foreground">{player.playerName}</span>
-                      <span className="font-mono text-xs text-foreground ml-auto">
+                      <span className="font-mono text-xs text-muted-foreground ml-auto">
                         #{player.playerNumber}
                       </span>
                     </motion.li>
@@ -184,7 +183,7 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
         )}
       >
         <CollapsibleTrigger asChild>
-          <motion.button className="w-5 h-24 bg-primary/20 hover:bg-primary/40 border-y-2 border-r-2 border-primary/50 rounded-r-lg flex items-center justify-center text-primary-foreground">
+          <motion.button className="w-5 h-24 bg-primary/80 hover:bg-primary border-y-2 border-r-2 border-primary rounded-r-lg flex items-center justify-center text-primary-foreground">
             {isSidebarOpen ? <ChevronsLeft /> : <ChevronsRight />}
           </motion.button>
         </CollapsibleTrigger>
@@ -211,10 +210,9 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
             className="w-full"
           >
             <Card 
-              className="w-full aspect-video flex flex-col items-center justify-center text-center bg-card/80 backdrop-blur-md border-primary/20 glow-border relative overflow-hidden"
+              className="w-full aspect-video flex flex-col items-center justify-center text-center bg-card/80 backdrop-blur-md border border-primary/20 shadow-lg shadow-primary/10"
             >
-              
-              <CardContent className="p-6 w-full z-10">
+              <CardContent className="p-6 w-full">
                 {isDrawing ? (
                    <motion.div
                       key="drawing"
@@ -227,7 +225,7 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
                       <p className="font-mono text-2xl sm:text-4xl font-bold text-muted-foreground animate-pulse">
                         #{drawingDisplayPlayer?.playerNumber || '??'}
                       </p>
-                      <h1 className="text-5xl sm:text-7xl mt-2 text-primary font-headline" style={{ textShadow: '0 0 15px hsl(var(--primary) / 0.6)' }}>
+                      <h1 className="text-5xl sm:text-7xl mt-2 text-primary font-bold">
                         {drawingDisplayPlayer?.playerName || 'Drawing...'}
                       </h1>
                     </motion.div>
@@ -245,8 +243,7 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
                       initial={{ opacity: 0, y: 50 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.3, duration: 0.4 }}
-                      className="font-headline text-5xl sm:text-7xl mt-2 truncate bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent"
-                       style={{ filter: 'drop-shadow(0 0 10px hsl(var(--accent) / 0.4))' }}
+                      className="text-5xl sm:text-7xl font-bold mt-2 truncate bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent"
                     >
                       {currentPlayer.playerName}
                     </motion.h1>
@@ -263,31 +260,31 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
                         }}
                     >
                         {currentPlayer.country && 
-                          <motion.div variants={drawnPlayerItemVariants} className="flex flex-col p-3 bg-white/5 rounded-lg border border-white/10 backdrop-blur-sm">
+                          <motion.div variants={drawnPlayerItemVariants} className="flex flex-col p-3 bg-white/5 rounded-lg border border-white/10">
                             <span className="text-sm text-primary font-bold uppercase tracking-wider">Country</span>
                             <span className="font-semibold text-lg truncate text-foreground/90">{currentPlayer.country}</span>
                           </motion.div>
                         }
                         {currentPlayer.specialism && 
-                          <motion.div variants={drawnPlayerItemVariants} className="flex flex-col p-3 bg-white/5 rounded-lg border border-white/10 backdrop-blur-sm">
+                          <motion.div variants={drawnPlayerItemVariants} className="flex flex-col p-3 bg-white/5 rounded-lg border border-white/10">
                              <span className="text-sm text-primary font-bold uppercase tracking-wider">Specialism</span>
                             <span className="font-semibold text-lg truncate text-foreground/90">{currentPlayer.specialism}</span>
                            </motion.div>
                         }
                         {currentPlayer.cua && 
-                          <motion.div variants={drawnPlayerItemVariants} className="flex flex-col p-3 bg-white/5 rounded-lg border border-white/10 backdrop-blur-sm">
+                          <motion.div variants={drawnPlayerItemVariants} className="flex flex-col p-3 bg-white/5 rounded-lg border border-white/10">
                             <span className="text-sm text-primary font-bold uppercase tracking-wider">Status</span>
                             <span className="font-semibold text-lg truncate text-foreground/90">{currentPlayer.cua}</span>
                           </motion.div>
                         }
                         {currentPlayer.reservePrice != null && currentPlayer.reservePrice > 0 &&
-                           <motion.div variants={drawnPlayerItemVariants} className="flex flex-col p-3 bg-accent/10 rounded-lg border border-accent/30 backdrop-blur-sm">
+                           <motion.div variants={drawnPlayerItemVariants} className="flex flex-col p-3 bg-accent/10 rounded-lg border border-accent/30">
                              <span className="text-sm text-accent font-bold uppercase tracking-wider">Reserve Price</span>
                              <span className="font-mono font-semibold text-lg truncate text-foreground">{currentPlayer.reservePrice} Lakh</span>
                            </motion.div>
                         }
                         {currentPlayer.points != null &&
-                          <motion.div variants={drawnPlayerItemVariants} className="flex flex-col p-3 bg-accent/10 rounded-lg border border-accent/30 backdrop-blur-sm">
+                          <motion.div variants={drawnPlayerItemVariants} className="flex flex-col p-3 bg-accent/10 rounded-lg border border-accent/30">
                             <span className="text-sm text-accent font-bold uppercase tracking-wider">Points</span>
                             <span className="font-mono font-semibold text-lg truncate text-foreground">{currentPlayer.points}</span>
                           </motion.div>
@@ -297,7 +294,7 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
                 ) : (
                   <div className="text-center">
                     <Users className="h-24 w-24 sm:h-32 sm:w-32 mx-auto text-muted-foreground" />
-                    <h1 className="text-4xl sm:text-6xl font-headline mt-4">
+                    <h1 className="text-4xl sm:text-6xl font-bold mt-4">
                       {undrawnPlayers.length > 0
                         ? 'Ready to Draw'
                         : 'Auction Complete!'}
@@ -319,7 +316,7 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
             onClick={handleDrawPlayer}
             disabled={isDrawing}
             size="lg"
-            className="h-20 w-80 text-2xl btn-glow font-headline"
+            className="h-20 w-80 text-2xl font-bold shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-shadow"
           >
             <Gavel className="mr-4 h-8 w-8" />
             {isDrawing ? 'Drawing...' : 'Draw Player'}
@@ -328,7 +325,7 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
             <Button
               onClick={resetAuction}
               size="lg"
-              className="h-20 w-80 text-2xl btn-glow font-headline"
+              className="h-20 w-80 text-2xl font-bold"
               variant="outline"
             >
               <Repeat className="mr-4 h-8 w-8"/>

@@ -7,7 +7,6 @@ import Header from '@/components/Header';
 import { FirebaseClientProvider } from '@/firebase';
 import { motion, AnimatePresence } from 'framer-motion';
 import { usePathname } from 'next/navigation';
-import { ParticleBackground } from '@/components/ParticleBackground';
 
 export default function RootLayout({
   children,
@@ -23,7 +22,6 @@ export default function RootLayout({
       </head>
       <body className="bg-background">
         <FirebaseClientProvider>
-          <ParticleBackground />
           <div className="flex min-h-screen w-full flex-col">
             {!isAuctionPage && <Header />}
             <AnimatePresence mode="wait">
@@ -33,7 +31,7 @@ export default function RootLayout({
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3 }}
-                className={!isAuctionPage ? "flex flex-1 flex-col items-center p-4 sm:p-6 md:p-8 z-10" : "flex-1 z-10"}
+                className={!isAuctionPage ? "flex flex-1 flex-col items-center p-4 sm:p-6 md:p-8" : "flex-1"}
               >
                 {children}
               </motion.main>
@@ -44,4 +42,3 @@ export default function RootLayout({
       </body>
     </html>
   );
-}
