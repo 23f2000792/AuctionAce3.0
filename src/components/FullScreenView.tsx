@@ -14,82 +14,8 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from '@/components/ui/collapsible';
+import { CricketFieldBackground } from './CricketFieldBackground';
 
-interface FullScreenViewProps {
-  players: Player[];
-  set: PlayerSet;
-  onReset: () => void;
-}
-
-const Starfield = () => {
-    const canvasRef = useRef<HTMLCanvasElement>(null);
-  
-    useEffect(() => {
-      const canvas = canvasRef.current;
-      if (!canvas) return;
-      const ctx = canvas.getContext('2d');
-      if (!ctx) return;
-  
-      let animationFrameId: number;
-      const stars: { x: number; y: number; z: number }[] = [];
-      const numStars = 300;
-  
-      const resize = () => {
-        canvas.width = canvas.offsetWidth;
-        canvas.height = canvas.offsetHeight;
-        stars.length = 0; // Reset stars on resize
-        for (let i = 0; i < numStars; i++) {
-          stars.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            z: Math.random() * canvas.width,
-          });
-        }
-      };
-  
-      const draw = () => {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = 'hsl(var(--foreground))';
-        
-        ctx.save();
-        ctx.translate(canvas.width / 2, canvas.height / 2);
-  
-        for (let i = 0; i < numStars; i++) {
-          const star = stars[i];
-          star.z -= 1;
-  
-          if (star.z <= 0) {
-            star.z = canvas.width;
-          }
-  
-          const k = 128 / star.z;
-          const px = star.x * k + canvas.width / 2;
-          const py = star.y * k + canvas.height / 2;
-  
-          if (px >= 0 && px <= canvas.width && py >= 0 && py <= canvas.height) {
-            const size = ((1 - star.z / canvas.width) * 5);
-            ctx.beginPath();
-            ctx.arc(px - canvas.width/2, py - canvas.height/2, size / 2, 0, Math.PI * 2);
-            ctx.fill();
-          }
-        }
-        ctx.restore();
-        animationFrameId = requestAnimationFrame(draw);
-      };
-      
-      resize();
-      draw();
-  
-      window.addEventListener('resize', resize);
-      return () => {
-        window.removeEventListener('resize', resize);
-        cancelAnimationFrame(animationFrameId);
-      };
-    }, []);
-  
-    return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full opacity-20" />;
-};
-  
 
 export default function FullScreenView({ players, set, onReset }: FullScreenViewProps) {
   const [undrawnPlayers, setUndrawnPlayers] = useState<Player[]>([...players]);
@@ -200,7 +126,8 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
 
 
   return (
-    <div className="fixed inset-0 flex flex-col items-center justify-center p-4 overflow-hidden bg-black text-white">
+    <div className="fixed inset-0 flex flex-col items-center justify-center p-4 overflow-hidden bg-background">
+      <CricketFieldBackground />
       <AnimatePresence>
         {isSidebarOpen && (
           <motion.div
@@ -263,7 +190,7 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
         variant="ghost"
         size="icon"
         onClick={() => router.push('/')}
-        className="absolute top-4 right-4 h-12 w-12 rounded-full z-40 text-white hover:bg-white/10 hover:text-white"
+        className="absolute top-4 right-4 h-12 w-12 rounded-full z-40 text-foreground hover:bg-white/10 hover:text-foreground"
       >
         <X className="h-8 w-8" />
         <span className="sr-only">Exit Full Screen</span>
@@ -280,7 +207,7 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
             className="w-full"
           >
             <Card 
-              className="w-full aspect-video flex flex-col items-center justify-center text-center bg-background/5 backdrop-blur-sm border-primary/20 glow-border relative overflow-hidden"
+              className="w-full aspect-video flex flex-col items-center justify-center text-center bg-card/60 backdrop-blur-md border-primary/20 glow-border relative overflow-hidden"
               style={{
                 boxShadow: 'inset 0 0 40px hsl(var(--foreground) / 0.1)',
               }}
@@ -296,7 +223,7 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
                       transition={{ duration: 0.3 }}
                       className="text-center"
                     >
-                      <p className="font-mono text-2xl sm:text-4xl font-bold text-white/50 animate-pulse">
+                      <p className="font-mono text-2xl sm:text-4xl font-bold text-foreground/50 animate-pulse">
                         #{drawingDisplayPlayer?.playerNumber || '??'}
                       </p>
                       <h1 className="text-5xl sm:text-7xl mt-2 text-primary font-headline" style={{ textShadow: '0 0 15px hsl(var(--primary) / 0.6)' }}>
@@ -309,7 +236,7 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
                       initial={{ opacity: 0, scale: 0.5 }}
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ delay: 0.2, duration: 0.3 }}
-                      className="font-mono text-2xl sm:text-4xl font-bold text-white/50"
+                      className="font-mono text-2xl sm:text-4xl font-bold text-foreground/50"
                     >
                       #{currentPlayer.playerNumber}
                     </motion.p>
@@ -317,7 +244,7 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
                       initial={{ opacity: 0, y: 50 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.3, duration: 0.4 }}
-                      className="text-5xl sm:text-7xl mt-2 truncate bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent font-headline"
+                      className="font-headline text-5xl sm:text-7xl mt-2 truncate bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent"
                        style={{ filter: 'drop-shadow(0 0 10px hsl(var(--accent) / 0.4))' }}
                     >
                       {currentPlayer.playerName}
@@ -337,44 +264,44 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
                         {currentPlayer.country && 
                           <motion.div variants={drawnPlayerItemVariants} className="flex flex-col p-3 bg-white/5 rounded-lg border border-white/10 backdrop-blur-sm">
                             <span className="text-sm text-primary font-bold uppercase tracking-wider">Country</span>
-                            <span className="font-semibold text-lg truncate text-white/90">{currentPlayer.country}</span>
+                            <span className="font-semibold text-lg truncate text-foreground/90">{currentPlayer.country}</span>
                           </motion.div>
                         }
                         {currentPlayer.specialism && 
                           <motion.div variants={drawnPlayerItemVariants} className="flex flex-col p-3 bg-white/5 rounded-lg border border-white/10 backdrop-blur-sm">
                              <span className="text-sm text-primary font-bold uppercase tracking-wider">Specialism</span>
-                            <span className="font-semibold text-lg truncate text-white/90">{currentPlayer.specialism}</span>
+                            <span className="font-semibold text-lg truncate text-foreground/90">{currentPlayer.specialism}</span>
                            </motion.div>
                         }
                         {currentPlayer.cua && 
                           <motion.div variants={drawnPlayerItemVariants} className="flex flex-col p-3 bg-white/5 rounded-lg border border-white/10 backdrop-blur-sm">
                             <span className="text-sm text-primary font-bold uppercase tracking-wider">Status</span>
-                            <span className="font-semibold text-lg truncate text-white/90">{currentPlayer.cua}</span>
+                            <span className="font-semibold text-lg truncate text-foreground/90">{currentPlayer.cua}</span>
                           </motion.div>
                         }
                         {currentPlayer.reservePrice != null && currentPlayer.reservePrice > 0 &&
                            <motion.div variants={drawnPlayerItemVariants} className="flex flex-col p-3 bg-accent/10 rounded-lg border border-accent/30 backdrop-blur-sm">
                              <span className="text-sm text-accent font-bold uppercase tracking-wider">Reserve Price</span>
-                             <span className="font-mono font-semibold text-lg truncate">{currentPlayer.reservePrice} Lakh</span>
+                             <span className="font-mono font-semibold text-lg truncate text-accent-foreground">{currentPlayer.reservePrice} Lakh</span>
                            </motion.div>
                         }
                         {currentPlayer.points != null &&
                           <motion.div variants={drawnPlayerItemVariants} className="flex flex-col p-3 bg-accent/10 rounded-lg border border-accent/30 backdrop-blur-sm">
                             <span className="text-sm text-accent font-bold uppercase tracking-wider">Points</span>
-                            <span className="font-mono font-semibold text-lg truncate">{currentPlayer.points}</span>
+                            <span className="font-mono font-semibold text-lg truncate text-accent-foreground">{currentPlayer.points}</span>
                           </motion.div>
                         }
                     </motion.div>
                   </div>
                 ) : (
                   <div className="text-center">
-                    <Users className="h-24 w-24 sm:h-32 sm:w-32 mx-auto text-white/40" />
+                    <Users className="h-24 w-24 sm:h-32 sm:w-32 mx-auto text-foreground/40" />
                     <h1 className="text-4xl sm:text-6xl font-headline mt-4">
                       {undrawnPlayers.length > 0
                         ? 'Ready to Draw'
                         : 'Auction Complete!'}
                     </h1>
-                     <p className="text-white/60 mt-2 text-lg">
+                     <p className="text-foreground/60 mt-2 text-lg">
                        {undrawnPlayers.length > 0 ? 'Click "Draw Player" to begin.' : 'All players have been drawn.'}
                     </p>
                   </div>
@@ -407,7 +334,7 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
               Reset Auction
             </Button>
         )}
-        <p className="text-sm text-white/50">
+        <p className="text-sm text-foreground/50">
           {undrawnPlayers.length} / {players.length} players remaining
         </p>
       </div>
