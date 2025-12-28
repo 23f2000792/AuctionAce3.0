@@ -14,7 +14,6 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from '@/components/ui/collapsible';
-import { CricketFieldBackground } from './CricketFieldBackground';
 
 
 interface FullScreenViewProps {
@@ -133,7 +132,6 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
 
   return (
     <div className="fixed inset-0 flex flex-col items-center justify-center p-4 overflow-hidden bg-background">
-      <CricketFieldBackground />
       <AnimatePresence>
         {isSidebarOpen && (
           <motion.div
