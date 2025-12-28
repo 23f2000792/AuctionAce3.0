@@ -17,6 +17,12 @@ import {
 import { CricketFieldBackground } from './CricketFieldBackground';
 
 
+interface FullScreenViewProps {
+    players: Player[];
+    set: PlayerSet;
+    onReset: () => void;
+}
+
 export default function FullScreenView({ players, set, onReset }: FullScreenViewProps) {
   const [undrawnPlayers, setUndrawnPlayers] = useState<Player[]>([...players]);
   const [drawnPlayers, setDrawnPlayers] = useState<Player[]>([]);
