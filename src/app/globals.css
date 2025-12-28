@@ -1,5 +1,5 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Teko:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto+Mono:wght@400;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -60,7 +60,7 @@
 
 @layer components {
     .font-headline {
-        font-family: 'Roboto Mono', monospace;
+        font-family: 'Press Start 2P', monospace;
         @apply font-bold tracking-tight;
     }
      .btn-glow {
@@ -70,5 +70,3 @@
       @apply shadow-[0_0_15px_hsl(var(--primary)/0.4),0_0_30px_hsl(var(--primary)/0.2)];
     }
 }
-
-    

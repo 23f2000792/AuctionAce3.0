@@ -20,7 +20,8 @@ const config = {
     },
     extend: {
       fontFamily: {
-        headline: ["Roboto Mono", "monospace"],
+        headline: ["'Press Start 2P'", "monospace"],
+        sans: ["'Roboto Mono'", "monospace"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -94,5 +95,3 @@ const config = {
 } satisfies Config
 
 export default config
-
-    
