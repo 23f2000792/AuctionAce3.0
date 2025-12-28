@@ -33,34 +33,37 @@ const Header = () => {
         <div className='flex flex-col md:flex-row items-stretch md:items-center gap-2'>
             <Button variant="ghost" asChild>
                 <Link href="/squads" onClick={() => setIsSheetOpen(false)}>
-                    <ShieldCheck /> Squads
+                    <ShieldCheck className="mr-2" /> Squads
                 </Link>
             </Button>
             <Button variant="ghost" asChild>
                 <Link href="/rulebook" onClick={() => setIsSheetOpen(false)}>
-                    <BookOpen /> Rulebook
+                    <BookOpen className="mr-2" /> Rulebook
                 </Link>
             </Button>
 
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                    <Button variant="ghost">Manage <ChevronDown /></Button>
+                    <Button variant="ghost">Manage <ChevronDown className="ml-1 h-4 w-4" /></Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                     <DropdownMenuItem asChild>
                         <Link href="/players">
-                            <Users /> Manage Players
+                            <Users className="mr-2 h-4 w-4" />
+                            <span>Manage Players</span>
                         </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
                          <Link href="/sets/create">
-                            <PlusCircle /> Create Set
+                            <PlusCircle className="mr-2 h-4 w-4" />
+                            <span>Create Set</span>
                         </Link>
                     </DropdownMenuItem>
                      <DropdownMenuSeparator />
                     <DropdownMenuItem asChild>
                          <Link href="/import">
-                            <Upload /> Import CSV
+                            <Upload className="mr-2 h-4 w-4" />
+                            <span>Import CSV</span>
                         </Link>
                     </DropdownMenuItem>
                 </DropdownMenuContent>
@@ -72,12 +75,12 @@ const Header = () => {
          <div className="h-10 w-24 animate-pulse rounded-md bg-muted/50" />
       ) : user ? (
         <Button variant="ghost" onClick={handleSignOut}>
-          <LogOut /> Sign Out
+          <LogOut className="mr-2" /> Sign Out
         </Button>
       ) : (
         <Button asChild className="btn-glow">
           <Link href="/login" onClick={() => setIsSheetOpen(false)}>
-            <LogIn /> Login
+            <LogIn className="mr-2" /> Login
           </Link>
         </Button>
       )}
@@ -90,7 +93,7 @@ const Header = () => {
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <Link href="/" className="flex items-center gap-2 group">
           <Gavel className="h-8 w-8 text-primary transition-transform group-hover:scale-110" />
-          <span className="text-2xl tracking-tighter font-headline">Auction Ace</span>
+          <span className="text-2xl font-bold tracking-tighter">Auction Ace</span>
         </Link>
         
         {/* Desktop Navigation */}

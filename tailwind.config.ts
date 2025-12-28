@@ -20,7 +20,6 @@ const config = {
     },
     extend: {
       fontFamily: {
-        headline: ["'Press Start 2P'", "monospace"],
         sans: ["'Roboto Mono'", "monospace"],
       },
       colors: {
