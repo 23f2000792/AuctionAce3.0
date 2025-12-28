@@ -131,7 +131,7 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
 
 
   return (
-    <div className="fixed inset-0 flex flex-col items-center justify-center p-4 overflow-hidden bg-background">
+    <div className="fixed inset-0 flex flex-col items-center justify-center p-4 overflow-hidden">
       <AnimatePresence>
         {isSidebarOpen && (
           <motion.div

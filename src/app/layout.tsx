@@ -21,9 +21,10 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
       </head>
-      <body>
+      <body className="bg-background">
         <FirebaseClientProvider>
-          <div className="flex min-h-screen w-full flex-col bg-secondary/20">
+          <ParticleBackground />
+          <div className="flex min-h-screen w-full flex-col">
             {!isAuctionPage && <Header />}
             <AnimatePresence mode="wait">
               <motion.main
