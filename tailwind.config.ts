@@ -20,8 +20,8 @@ const config = {
     },
     extend: {
       fontFamily: {
-        sans: ["Nunito Sans", "sans-serif"],
-        serif: ["Playfair Display", "serif"],
+        sans: ["Inter", "sans-serif"],
+        serif: ["DM Serif Display", "serif"],
       },
       colors: {
         border: "hsl(var(--border))",
