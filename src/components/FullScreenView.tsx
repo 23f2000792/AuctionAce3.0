@@ -129,6 +129,11 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
     visible: { opacity: 1, x: 0 },
   };
 
+  const statItemVariant = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 },
+  };
+
 
   return (
     <div className="fixed inset-0 flex flex-col items-center justify-center p-4 overflow-hidden">
@@ -221,28 +226,28 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.8 }}
                       transition={{ duration: 0.3 }}
-                      className="text-center min-h-[450px] flex flex-col justify-center"
+                      className="text-center min-h-[500px] flex flex-col justify-center"
                     >
-                      <p className="font-mono text-2xl sm:text-4xl font-bold text-muted-foreground animate-pulse">
+                      <p className="font-mono text-3xl sm:text-5xl font-bold text-muted-foreground animate-pulse">
                         #{drawingDisplayPlayer?.playerNumber || '??'}
                       </p>
-                      <h1 className="text-5xl sm:text-7xl mt-2 text-primary font-bold font-serif">
+                      <h1 className="text-6xl sm:text-8xl mt-2 text-primary font-bold font-serif">
                         {drawingDisplayPlayer?.playerName || 'Drawing...'}
                       </h1>
                     </motion.div>
                 ) : currentPlayer ? (
-                  <div className="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12 w-full">
+                  <div className="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-16 w-full min-h-[500px]">
                     {/* Image Section */}
                     <motion.div 
                         className="w-full lg:w-2/5 flex-shrink-0"
-                        initial={{ opacity: 0, scale: 0.8 }}
+                        initial={{ opacity: 0, scale: 0.5 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: 0.1, duration: 0.4 }}
+                        transition={{ delay: 0.1, duration: 0.5, type: 'spring', stiffness: 50 }}
                     >
-                        <div className="relative aspect-[3/4] max-w-[350px] mx-auto lg:mx-0 rounded-2xl overflow-hidden shadow-2xl shadow-primary/20 p-1 bg-primary/10">
+                        <div className="relative aspect-[3/4] max-w-[400px] mx-auto lg:mx-0 rounded-2xl overflow-hidden shadow-2xl shadow-primary/20 p-1.5 bg-gradient-to-tr from-primary/50 to-accent/50">
                             <div className="bg-background rounded-xl w-full h-full flex items-center justify-center overflow-hidden">
                                 {currentPlayer.imageUrl ? (
-                                    <Image src={currentPlayer.imageUrl} alt={currentPlayer.playerName} width={350} height={467} className="object-cover w-full h-full" />
+                                    <Image src={currentPlayer.imageUrl} alt={currentPlayer.playerName} fill={true} className="object-cover" />
                                 ) : (
                                     <span className="font-mono text-8xl text-muted-foreground opacity-50">{currentPlayer.playerNumber}</span>
                                 )}
@@ -255,57 +260,55 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
                         <motion.p
                         initial={{ opacity: 0, scale: 0.5 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: 0.2, duration: 0.3 }}
-                        className="font-mono text-3xl sm:text-5xl font-bold text-primary/80"
+                        transition={{ delay: 0.3, duration: 0.4, type: 'spring' }}
+                        className="font-mono text-4xl sm:text-6xl font-bold text-primary"
                         >
                         #{currentPlayer.playerNumber}
                         </motion.p>
                         <motion.h1
                         initial={{ opacity: 0, y: 50 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.3, duration: 0.4 }}
-                        className="text-6xl sm:text-8xl font-bold font-serif mt-1 text-shadow-lg shadow-black/50 text-primary"
+                        transition={{ delay: 0.4, duration: 0.5, type: 'spring' }}
+                        className="text-6xl sm:text-8xl lg:text-9xl font-bold font-serif mt-1 filter drop-shadow-[0_4px_6px_rgba(0,0,0,0.4)] text-foreground"
                         >
                         {currentPlayer.playerName}
                         </motion.h1>
                         <motion.div 
-                            className="w-full max-w-4xl grid grid-cols-2 md:grid-cols-3 gap-4 lg:gap-6 mt-8 text-base"
+                            className="w-full grid grid-cols-2 md:grid-cols-3 gap-4 lg:gap-6 mt-8 text-base"
                             initial="hidden"
                             animate="visible"
                             variants={{
                             visible: { 
-                                opacity: 1, y: 0, 
-                                transition: { delay: 0.5, duration: 0.4, staggerChildren: 0.1 }
+                                transition: { delayChildren: 0.6, staggerChildren: 0.1 }
                             },
-                            hidden: { opacity: 0, y: 20 },
                             }}
                         >
                             {currentPlayer.country && 
-                            <motion.div variants={drawnPlayerItemVariants} className="flex flex-col p-4 bg-black/30 rounded-xl border border-primary/20 backdrop-blur-md transition-transform duration-300 hover:scale-105">
+                            <motion.div variants={statItemVariant} className="flex flex-col p-4 bg-black/40 rounded-xl border border-primary/20 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:border-primary">
                                 <span className="text-sm text-primary font-bold uppercase tracking-wider">Country</span>
                                 <span className="font-semibold text-xl lg:text-2xl truncate text-foreground/90 mt-1">{currentPlayer.country}</span>
                             </motion.div>
                             }
                             {currentPlayer.specialism && 
-                            <motion.div variants={drawnPlayerItemVariants} className="flex flex-col p-4 bg-black/30 rounded-xl border border-primary/20 backdrop-blur-md transition-transform duration-300 hover:scale-105">
+                            <motion.div variants={statItemVariant} className="flex flex-col p-4 bg-black/40 rounded-xl border border-primary/20 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:border-primary">
                                 <span className="text-sm text-primary font-bold uppercase tracking-wider">Specialism</span>
                                 <span className="font-semibold text-xl lg:text-2xl truncate text-foreground/90 mt-1">{currentPlayer.specialism}</span>
                             </motion.div>
                             }
                             {currentPlayer.cua && 
-                            <motion.div variants={drawnPlayerItemVariants} className="flex flex-col p-4 bg-black/30 rounded-xl border border-primary/20 backdrop-blur-md transition-transform duration-300 hover:scale-105">
+                            <motion.div variants={statItemVariant} className="flex flex-col p-4 bg-black/40 rounded-xl border border-primary/20 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:border-primary">
                                 <span className="text-sm text-primary font-bold uppercase tracking-wider">Status</span>
                                 <span className="font-semibold text-xl lg:text-2xl truncate text-foreground/90 mt-1">{currentPlayer.cua}</span>
                             </motion.div>
                             }
                             {currentPlayer.reservePrice != null && currentPlayer.reservePrice > 0 &&
-                            <motion.div variants={drawnPlayerItemVariants} className="flex flex-col p-4 bg-black/30 rounded-xl border border-primary/20 backdrop-blur-md transition-transform duration-300 hover:scale-105">
+                            <motion.div variants={statItemVariant} className="flex flex-col p-4 bg-black/40 rounded-xl border border-primary/20 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:border-primary">
                                 <span className="text-sm text-primary font-bold uppercase tracking-wider">Reserve Price</span>
                                 <span className="font-mono font-semibold text-xl lg:text-2xl truncate text-foreground">{currentPlayer.reservePrice} Lakh</span>
                             </motion.div>
                             }
                             {currentPlayer.points != null &&
-                            <motion.div variants={drawnPlayerItemVariants} className="flex flex-col p-4 bg-black/30 rounded-xl border border-primary/20 backdrop-blur-md transition-transform duration-300 hover:scale-105">
+                            <motion.div variants={statItemVariant} className="flex flex-col p-4 bg-black/40 rounded-xl border border-primary/20 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:border-primary">
                                 <span className="text-sm text-primary font-bold uppercase tracking-wider">Points</span>
                                 <span className="font-mono font-semibold text-xl lg:text-2xl truncate text-foreground">{currentPlayer.points}</span>
                             </motion.div>
@@ -314,7 +317,7 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
                     </div>
                   </div>
                 ) : (
-                  <div className="text-center min-h-[450px] flex flex-col justify-center">
+                  <div className="text-center min-h-[500px] flex flex-col justify-center">
                     <Users className="h-24 w-24 sm:h-32 sm:w-32 mx-auto text-muted-foreground" />
                     <h1 className="text-4xl sm:text-6xl font-bold font-serif mt-4">
                       {undrawnPlayers.length > 0
