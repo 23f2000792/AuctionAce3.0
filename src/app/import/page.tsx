@@ -70,8 +70,9 @@ export default function ImportPage() {
             const setNumber = item['Set No.'];
             if (!setNumber) continue;
 
-            const playerRef = doc(playersCollectionRef); // Create a new document reference for the player
-            const newPlayerData: Player = {
+            const playerRef = doc(playersCollectionRef);
+            
+            const newPlayerData: any = {
               id: playerRef.id,
               playerName: playerName,
               firstName: item['First Name'] || '',
@@ -84,8 +85,13 @@ export default function ImportPage() {
               playerNumber: parseInt(item['List Sr.No.'], 10) || 0,
               setNumber: parseInt(setNumber, 10) || 0,
               userId: user.uid,
-              imageUrl: item['Image URL'] || undefined,
             };
+            
+            // Conditionally add imageUrl only if it exists and is a non-empty string
+            const imageUrl = item['Image URL'];
+            if (imageUrl && typeof imageUrl === 'string' && imageUrl.trim()) {
+              newPlayerData.imageUrl = imageUrl.trim();
+            }
             
             // Add player creation to the batch
             batch.set(playerRef, newPlayerData);
@@ -98,7 +104,7 @@ export default function ImportPage() {
                 players: [] 
               };
             }
-            setsMap[setNumber].players.push(newPlayerData);
+            setsMap[setNumber].players.push(newPlayerData as Player);
           }
 
           // Create new sets from the grouped players
