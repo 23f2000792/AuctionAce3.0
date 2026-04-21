@@ -104,9 +104,9 @@ export default function Home() {
                     key={set.id}
                     variants={cardVariants}
                   >
-                    <Card className="hover:border-primary/50 transition-all flex flex-col h-full bg-card hover:-translate-y-1 hover:shadow-lg shadow-primary/10">
+                    <Card className="hover:border-primary/80 transition-all flex flex-col h-full bg-card hover:-translate-y-1 hover:shadow-2xl hover:shadow-primary/20 shadow-primary/10">
                       <CardHeader className="p-4 flex-row items-start justify-between">
-                         <CardTitle className="text-lg truncate font-bold font-serif">{set.name}</CardTitle>
+                         <CardTitle className="text-xl truncate font-bold font-serif">{set.name}</CardTitle>
                       </CardHeader>
                       <CardContent className="p-4 pt-0 flex-grow">
                          <div className="flex flex-col items-start text-sm text-muted-foreground">

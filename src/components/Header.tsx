@@ -95,7 +95,7 @@ const Header = () => {
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <Link href="/" className="flex items-center gap-3 group">
           <Sparkles className="h-7 w-7 text-primary transition-transform group-hover:scale-110" />
-          <span className="text-2xl font-serif font-bold tracking-tight">Paradox</span>
+          <span className="text-2xl font-serif font-bold tracking-tight">Paradox Auction</span>
         </Link>
         
         {/* Desktop Navigation */}
