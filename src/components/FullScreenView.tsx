@@ -5,7 +5,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from './ui/button';
 import { Card, CardContent } from './ui/card';
-import { X, Gavel, Users, ChevronsLeft, ChevronsRight, Repeat, Flag, Star, Shield, Gem, CircleDollarSign } from 'lucide-react';
+import { X, Gavel, Users, ChevronsLeft, ChevronsRight, Repeat } from 'lucide-react';
 import { Player, PlayerSet } from '@/lib/player-data';
 import { AnimatePresence, motion } from 'framer-motion';
 import { cn, shuffleArray } from '@/lib/utils';
@@ -261,31 +261,31 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
                     >
                         {currentPlayer.country && 
                           <motion.div variants={drawnPlayerItemVariants} className="flex flex-col p-3 bg-black/20 rounded-lg border border-primary/20 backdrop-blur-sm">
-                            <span className="text-sm text-primary font-bold uppercase tracking-wider flex items-center gap-2"><Flag />Country</span>
+                            <span className="text-sm text-primary font-bold uppercase tracking-wider">Country</span>
                             <span className="font-semibold text-xl truncate text-foreground/90 mt-1">{currentPlayer.country}</span>
                           </motion.div>
                         }
                         {currentPlayer.specialism && 
                           <motion.div variants={drawnPlayerItemVariants} className="flex flex-col p-3 bg-black/20 rounded-lg border border-primary/20 backdrop-blur-sm">
-                             <span className="text-sm text-primary font-bold uppercase tracking-wider flex items-center gap-2"><Star />Specialism</span>
+                             <span className="text-sm text-primary font-bold uppercase tracking-wider">Specialism</span>
                             <span className="font-semibold text-xl truncate text-foreground/90 mt-1">{currentPlayer.specialism}</span>
                            </motion.div>
                         }
                         {currentPlayer.cua && 
                           <motion.div variants={drawnPlayerItemVariants} className="flex flex-col p-3 bg-black/20 rounded-lg border border-primary/20 backdrop-blur-sm">
-                            <span className="text-sm text-primary font-bold uppercase tracking-wider flex items-center gap-2"><Shield />Status</span>
+                            <span className="text-sm text-primary font-bold uppercase tracking-wider">Status</span>
                             <span className="font-semibold text-xl truncate text-foreground/90 mt-1">{currentPlayer.cua}</span>
                           </motion.div>
                         }
                         {currentPlayer.reservePrice != null && currentPlayer.reservePrice > 0 &&
                            <motion.div variants={drawnPlayerItemVariants} className="flex flex-col p-3 bg-black/20 rounded-lg border border-primary/20 backdrop-blur-sm">
-                             <span className="text-sm text-primary font-bold uppercase tracking-wider flex items-center gap-2"><CircleDollarSign />Reserve Price</span>
+                             <span className="text-sm text-primary font-bold uppercase tracking-wider">Reserve Price</span>
                              <span className="font-mono font-semibold text-xl truncate text-foreground">{currentPlayer.reservePrice} Lakh</span>
                            </motion.div>
                         }
                         {currentPlayer.points != null &&
                           <motion.div variants={drawnPlayerItemVariants} className="flex flex-col p-3 bg-black/20 rounded-lg border border-primary/20 backdrop-blur-sm">
-                            <span className="text-sm text-primary font-bold uppercase tracking-wider flex items-center gap-2"><Gem />Points</span>
+                            <span className="text-sm text-primary font-bold uppercase tracking-wider">Points</span>
                             <span className="font-mono font-semibold text-xl truncate text-foreground">{currentPlayer.points}</span>
                           </motion.div>
                         }
