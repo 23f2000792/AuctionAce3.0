@@ -87,18 +87,12 @@ const config = {
           "0%": { transform: "rotate(0deg)" },
           "100%": { transform: "rotate(360deg)" },
         },
-        "spotlight-spin": {
-          "0%": { transform: "translate(-50%, -50%) rotate(0deg)" },
-          "100%": { transform: "translate(-50%, -50%) rotate(360deg)" },
-        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "caret-blink": "caret-blink 1.25s ease-out infinite",
         "hero-spin": "hero-spin 20s linear infinite",
-        "spotlight-spin": "spotlight-spin 15s linear infinite",
-        "spotlight-spin-slow": "spotlight-spin 25s linear infinite",
       },
     },
   },
