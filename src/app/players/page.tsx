@@ -47,6 +47,7 @@ const playerSchema = z.object({
   cua: z.string().optional(),
   reservePrice: z.coerce.number().min(0).optional(),
   points: z.coerce.number().min(0).optional(),
+  imageUrl: z.string().url({ message: "Please provide a valid URL." }).optional().or(z.literal('')),
 });
 
 type PlayerFormData = z.infer<typeof playerSchema>;
@@ -82,6 +83,7 @@ export default function PlayersPage() {
       cua: '',
       reservePrice: 0,
       points: 0,
+      imageUrl: '',
     },
   });
 
@@ -102,6 +104,7 @@ export default function PlayersPage() {
         cua: editingPlayer.cua,
         reservePrice: editingPlayer.reservePrice,
         points: editingPlayer.points,
+        imageUrl: editingPlayer.imageUrl,
       });
     } else {
         form.reset({
@@ -113,6 +116,7 @@ export default function PlayersPage() {
             cua: '',
             reservePrice: 0,
             points: 0,
+            imageUrl: '',
         });
     }
   }, [editingPlayer, form]);
@@ -189,108 +193,123 @@ export default function PlayersPage() {
                 {editingPlayer ? 'Update the player details below.' : 'Add a new player to your master list. They will be available to add to auction sets.'}
               </CardDescription>
             </CardHeader>
-            <CardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <CardContent className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <FormField
+                  control={form.control}
+                  name="firstName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>First Name</FormLabel>
+                      <FormControl>
+                        <Input placeholder="e.g., John" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="surname"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Surname</FormLabel>
+                      <FormControl>
+                        <Input placeholder="e.g., Doe" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="playerNumber"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Player Number</FormLabel>
+                      <FormControl>
+                        <Input type="number" placeholder="e.g., 7" {...field} />
+                      </FormControl>
+                       <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                  <FormField
+                  control={form.control}
+                  name="country"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Country</FormLabel>
+                      <FormControl>
+                        <Input placeholder="e.g., India" {...field} />
+                      </FormControl>
+                       <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                  <FormField
+                  control={form.control}
+                  name="specialism"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Specialism</FormLabel>
+                      <FormControl>
+                        <Input placeholder="e.g., Batter" {...field} />
+                      </FormControl>
+                       <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                  <FormField
+                  control={form.control}
+                  name="cua"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Status (C/U/A)</FormLabel>
+                      <FormControl>
+                        <Input placeholder="e.g., Capped" {...field} />
+                      </FormControl>
+                       <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                  <FormField
+                  control={form.control}
+                  name="reservePrice"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Reserve Price (Lakh)</FormLabel>
+                      <FormControl>
+                        <Input type="number" placeholder="e.g., 20" {...field} />
+                      </FormControl>
+                       <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                  <FormField
+                  control={form.control}
+                  name="points"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Points</FormLabel>
+                      <FormControl>
+                        <Input type="number" placeholder="e.g., 100" {...field} />
+                      </FormControl>
+                       <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
               <FormField
                 control={form.control}
-                name="firstName"
+                name="imageUrl"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>First Name</FormLabel>
+                    <FormLabel>Image URL</FormLabel>
                     <FormControl>
-                      <Input placeholder="e.g., John" {...field} />
+                      <Input placeholder="https://example.com/player.jpg" {...field} />
                     </FormControl>
                     <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="surname"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Surname</FormLabel>
-                    <FormControl>
-                      <Input placeholder="e.g., Doe" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="playerNumber"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Player Number</FormLabel>
-                    <FormControl>
-                      <Input type="number" placeholder="e.g., 7" {...field} />
-                    </FormControl>
-                     <FormMessage />
-                  </FormItem>
-                )}
-              />
-                <FormField
-                control={form.control}
-                name="country"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Country</FormLabel>
-                    <FormControl>
-                      <Input placeholder="e.g., India" {...field} />
-                    </FormControl>
-                     <FormMessage />
-                  </FormItem>
-                )}
-              />
-                <FormField
-                control={form.control}
-                name="specialism"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Specialism</FormLabel>
-                    <FormControl>
-                      <Input placeholder="e.g., Batter" {...field} />
-                    </FormControl>
-                     <FormMessage />
-                  </FormItem>
-                )}
-              />
-                <FormField
-                control={form.control}
-                name="cua"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Status (C/U/A)</FormLabel>
-                    <FormControl>
-                      <Input placeholder="e.g., Capped" {...field} />
-                    </FormControl>
-                     <FormMessage />
-                  </FormItem>
-                )}
-              />
-                <FormField
-                control={form.control}
-                name="reservePrice"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Reserve Price (Lakh)</FormLabel>
-                    <FormControl>
-                      <Input type="number" placeholder="e.g., 20" {...field} />
-                    </FormControl>
-                     <FormMessage />
-                  </FormItem>
-                )}
-              />
-                <FormField
-                control={form.control}
-                name="points"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Points</FormLabel>
-                    <FormControl>
-                      <Input type="number" placeholder="e.g., 100" {...field} />
-                    </FormControl>
-                     <FormMessage />
                   </FormItem>
                 )}
               />

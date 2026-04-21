@@ -84,6 +84,7 @@ export default function ImportPage() {
               playerNumber: parseInt(item['List Sr.No.'], 10) || 0,
               setNumber: parseInt(setNumber, 10) || 0,
               userId: user.uid,
+              imageUrl: item['Image URL'] || undefined,
             };
             
             // Add player creation to the batch
@@ -164,7 +165,7 @@ export default function ImportPage() {
         <CardContent className="space-y-4">
             <div className="space-y-2">
                  <p className="text-sm font-medium">The CSV should have the following columns:</p>
-                 <code className="text-xs p-2 bg-muted rounded-sm block whitespace-pre-wrap">List Sr.No., Set No., Set, First Name, Surname, Country, Specialism, C/U/A, Reserve Price Rs Lakh, Points</code>
+                 <code className="text-xs p-2 bg-muted rounded-sm block whitespace-pre-wrap">List Sr.No., Set No., Set, First Name, Surname, Country, Specialism, C/U/A, Reserve Price Rs Lakh, Points, Image URL</code>
             </div>
           <Input
             type="file"

@@ -14,6 +14,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from '@/components/ui/collapsible';
+import Image from 'next/image';
 
 
 interface FullScreenViewProps {
@@ -210,9 +211,9 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
             className="w-full"
           >
             <Card 
-              className="w-full aspect-video flex flex-col items-center justify-center text-center bg-card/80 backdrop-blur-md border border-primary/20 shadow-lg shadow-primary/10"
+              className="w-full max-w-6xl flex flex-col items-center justify-center text-center bg-card/80 backdrop-blur-md border border-primary/20 shadow-lg shadow-primary/10"
             >
-              <CardContent className="p-6 w-full">
+              <CardContent className="p-6 sm:p-8 md:p-12 w-full">
                 {isDrawing ? (
                    <motion.div
                       key="drawing"
@@ -220,7 +221,7 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.8 }}
                       transition={{ duration: 0.3 }}
-                      className="text-center"
+                      className="text-center min-h-[450px] flex flex-col justify-center"
                     >
                       <p className="font-mono text-2xl sm:text-4xl font-bold text-muted-foreground animate-pulse">
                         #{drawingDisplayPlayer?.playerNumber || '??'}
@@ -230,69 +231,88 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
                       </h1>
                     </motion.div>
                 ) : currentPlayer ? (
-                  <div className="text-center flex flex-col items-center justify-center h-full">
-                    <motion.p
-                      initial={{ opacity: 0, scale: 0.5 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: 0.2, duration: 0.3 }}
-                      className="font-mono text-2xl sm:text-4xl font-bold text-muted-foreground"
-                    >
-                      #{currentPlayer.playerNumber}
-                    </motion.p>
-                    <motion.h1
-                      initial={{ opacity: 0, y: 50 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.3, duration: 0.4 }}
-                      className="text-5xl sm:text-7xl font-bold font-serif mt-2 truncate text-primary"
-                    >
-                      {currentPlayer.playerName}
-                    </motion.h1>
+                  <div className="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12 w-full">
+                    {/* Image Section */}
                     <motion.div 
-                        className="w-full max-w-4xl grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mt-8 text-base"
-                        initial="hidden"
-                        animate="visible"
-                        variants={{
-                           visible: { 
-                            opacity: 1, y: 0, 
-                            transition: { delay: 0.5, duration: 0.4, staggerChildren: 0.1 }
-                          },
-                           hidden: { opacity: 0, y: 20 },
-                        }}
+                        className="w-full lg:w-1/3 flex-shrink-0"
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.1, duration: 0.4 }}
                     >
-                        {currentPlayer.country && 
-                          <motion.div variants={drawnPlayerItemVariants} className="flex flex-col p-3 bg-black/20 rounded-lg border border-primary/20 backdrop-blur-sm">
-                            <span className="text-sm text-primary font-bold uppercase tracking-wider">Country</span>
-                            <span className="font-semibold text-xl truncate text-foreground/90 mt-1">{currentPlayer.country}</span>
-                          </motion.div>
-                        }
-                        {currentPlayer.specialism && 
-                          <motion.div variants={drawnPlayerItemVariants} className="flex flex-col p-3 bg-black/20 rounded-lg border border-primary/20 backdrop-blur-sm">
-                             <span className="text-sm text-primary font-bold uppercase tracking-wider">Specialism</span>
-                            <span className="font-semibold text-xl truncate text-foreground/90 mt-1">{currentPlayer.specialism}</span>
-                           </motion.div>
-                        }
-                        {currentPlayer.cua && 
-                          <motion.div variants={drawnPlayerItemVariants} className="flex flex-col p-3 bg-black/20 rounded-lg border border-primary/20 backdrop-blur-sm">
-                            <span className="text-sm text-primary font-bold uppercase tracking-wider">Status</span>
-                            <span className="font-semibold text-xl truncate text-foreground/90 mt-1">{currentPlayer.cua}</span>
-                          </motion.div>
-                        }
-                        {currentPlayer.reservePrice != null && currentPlayer.reservePrice > 0 &&
-                           <motion.div variants={drawnPlayerItemVariants} className="flex flex-col p-3 bg-black/20 rounded-lg border border-primary/20 backdrop-blur-sm">
-                             <span className="text-sm text-primary font-bold uppercase tracking-wider">Reserve Price</span>
-                             <span className="font-mono font-semibold text-xl truncate text-foreground">{currentPlayer.reservePrice} Lakh</span>
-                           </motion.div>
-                        }
-                        {currentPlayer.points != null &&
-                          <motion.div variants={drawnPlayerItemVariants} className="flex flex-col p-3 bg-black/20 rounded-lg border border-primary/20 backdrop-blur-sm">
-                            <span className="text-sm text-primary font-bold uppercase tracking-wider">Points</span>
-                            <span className="font-mono font-semibold text-xl truncate text-foreground">{currentPlayer.points}</span>
-                          </motion.div>
-                        }
+                        <div className="aspect-[3/4] max-w-[300px] mx-auto lg:mx-0 bg-black/20 rounded-lg border border-primary/20 backdrop-blur-sm flex items-center justify-center overflow-hidden shadow-2xl shadow-primary/10">
+                            {currentPlayer.imageUrl ? (
+                                <Image src={currentPlayer.imageUrl} alt={currentPlayer.playerName} width={300} height={400} className="object-cover w-full h-full" />
+                            ) : (
+                                <span className="font-mono text-8xl text-muted-foreground opacity-50">{currentPlayer.playerNumber}</span>
+                            )}
+                        </div>
                     </motion.div>
+
+                    {/* Details Section */}
+                    <div className="w-full lg:w-2/3 flex flex-col items-center lg:items-start text-center lg:text-left">
+                        <motion.p
+                        initial={{ opacity: 0, scale: 0.5 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.2, duration: 0.3 }}
+                        className="font-mono text-2xl sm:text-4xl font-bold text-muted-foreground"
+                        >
+                        #{currentPlayer.playerNumber}
+                        </motion.p>
+                        <motion.h1
+                        initial={{ opacity: 0, y: 50 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.3, duration: 0.4 }}
+                        className="text-5xl sm:text-7xl font-bold font-serif mt-2 truncate text-primary"
+                        >
+                        {currentPlayer.playerName}
+                        </motion.h1>
+                        <motion.div 
+                            className="w-full max-w-4xl grid grid-cols-2 md:grid-cols-3 gap-4 mt-8 text-base"
+                            initial="hidden"
+                            animate="visible"
+                            variants={{
+                            visible: { 
+                                opacity: 1, y: 0, 
+                                transition: { delay: 0.5, duration: 0.4, staggerChildren: 0.1 }
+                            },
+                            hidden: { opacity: 0, y: 20 },
+                            }}
+                        >
+                            {currentPlayer.country && 
+                            <motion.div variants={drawnPlayerItemVariants} className="flex flex-col p-3 bg-black/20 rounded-lg border border-primary/20 backdrop-blur-sm">
+                                <span className="text-sm text-primary font-bold uppercase tracking-wider">Country</span>
+                                <span className="font-semibold text-xl truncate text-foreground/90 mt-1">{currentPlayer.country}</span>
+                            </motion.div>
+                            }
+                            {currentPlayer.specialism && 
+                            <motion.div variants={drawnPlayerItemVariants} className="flex flex-col p-3 bg-black/20 rounded-lg border border-primary/20 backdrop-blur-sm">
+                                <span className="text-sm text-primary font-bold uppercase tracking-wider">Specialism</span>
+                                <span className="font-semibold text-xl truncate text-foreground/90 mt-1">{currentPlayer.specialism}</span>
+                            </motion.div>
+                            }
+                            {currentPlayer.cua && 
+                            <motion.div variants={drawnPlayerItemVariants} className="flex flex-col p-3 bg-black/20 rounded-lg border border-primary/20 backdrop-blur-sm">
+                                <span className="text-sm text-primary font-bold uppercase tracking-wider">Status</span>
+                                <span className="font-semibold text-xl truncate text-foreground/90 mt-1">{currentPlayer.cua}</span>
+                            </motion.div>
+                            }
+                            {currentPlayer.reservePrice != null && currentPlayer.reservePrice > 0 &&
+                            <motion.div variants={drawnPlayerItemVariants} className="flex flex-col p-3 bg-black/20 rounded-lg border border-primary/20 backdrop-blur-sm">
+                                <span className="text-sm text-primary font-bold uppercase tracking-wider">Reserve Price</span>
+                                <span className="font-mono font-semibold text-xl truncate text-foreground">{currentPlayer.reservePrice} Lakh</span>
+                            </motion.div>
+                            }
+                            {currentPlayer.points != null &&
+                            <motion.div variants={drawnPlayerItemVariants} className="flex flex-col p-3 bg-black/20 rounded-lg border border-primary/20 backdrop-blur-sm">
+                                <span className="text-sm text-primary font-bold uppercase tracking-wider">Points</span>
+                                <span className="font-mono font-semibold text-xl truncate text-foreground">{currentPlayer.points}</span>
+                            </motion.div>
+                            }
+                        </motion.div>
+                    </div>
                   </div>
                 ) : (
-                  <div className="text-center">
+                  <div className="text-center min-h-[450px] flex flex-col justify-center">
                     <Users className="h-24 w-24 sm:h-32 sm:w-32 mx-auto text-muted-foreground" />
                     <h1 className="text-4xl sm:text-6xl font-bold font-serif mt-4">
                       {undrawnPlayers.length > 0

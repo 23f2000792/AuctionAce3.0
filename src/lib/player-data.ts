@@ -13,6 +13,7 @@ export interface Player extends DocumentData {
   reservePrice?: number;
   points?: number;
   setNumber?: number;
+  imageUrl?: string;
 }
 
 export interface PlayerSet extends DocumentData {
