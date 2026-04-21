@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss"
 
 const config = {
@@ -91,6 +90,26 @@ const config = {
           "0%": { transform: "translate(-50%, -50%) rotate(0deg)" },
           "100%": { transform: "translate(-50%, -50%) rotate(360deg)" },
         },
+        "float-1": {
+            "0%": { transform: "translateY(0px) translateX(0px) rotate(0deg)", opacity: 0 },
+            "20%": { opacity: 1 },
+            "100%": { transform: "translateY(-100vh) translateX(100vw) rotate(360deg)", opacity: 0 },
+        },
+        "float-2": {
+            "0%": { transform: "translateY(0) translateX(0) rotate(0deg)", opacity: 0 },
+            "10%": { opacity: 0.7 },
+            "100%": { transform: "translateY(-80vh) translateX(-120vw) rotate(-300deg)", opacity: 0 },
+        },
+        "float-3": {
+            "0%": { transform: "translateY(0) translateX(0) rotate(0deg)", opacity: 0 },
+            "15%": { opacity: 0.5 },
+            "100%": { transform: "translateY(60vh) translateX(110vw) rotate(270deg)", opacity: 0 },
+        },
+        "float-4": {
+            "0%": { transform: "translateY(0) translateX(0) rotate(0deg)", opacity: 0 },
+            "5%": { opacity: 0.6 },
+            "100%": { transform: "translateY(-100vh) translateX(-30vw) rotate(-270deg)", opacity: 0 },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -99,6 +118,10 @@ const config = {
         "hero-spin": "hero-spin 20s linear infinite",
         "spotlight-spin": "spotlight-spin 15s linear infinite",
         "spotlight-spin-slow": "spotlight-spin 25s linear infinite",
+        "float-1": "float-1 30s ease-in-out infinite 2s",
+        "float-2": "float-2 25s ease-in-out infinite 8s",
+        "float-3": "float-3 35s ease-in-out infinite 15s",
+        "float-4": "float-4 28s ease-in-out infinite 20s",
       },
     },
   },
