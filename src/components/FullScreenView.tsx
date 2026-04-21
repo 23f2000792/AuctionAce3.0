@@ -211,7 +211,7 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
             className="w-full"
           >
             <Card 
-              className="w-full max-w-6xl flex flex-col items-center justify-center text-center bg-card/80 backdrop-blur-md border border-primary/20 shadow-lg shadow-primary/10"
+              className="w-full max-w-6xl flex flex-col items-center justify-center text-center bg-card/60 backdrop-blur-xl border border-primary/20 shadow-lg shadow-primary/10"
             >
               <CardContent className="p-6 sm:p-8 md:p-12 w-full">
                 {isDrawing ? (
@@ -234,27 +234,29 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
                   <div className="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12 w-full">
                     {/* Image Section */}
                     <motion.div 
-                        className="w-full lg:w-1/3 flex-shrink-0"
+                        className="w-full lg:w-2/5 flex-shrink-0"
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: 0.1, duration: 0.4 }}
                     >
-                        <div className="aspect-[3/4] max-w-[300px] mx-auto lg:mx-0 bg-black/20 rounded-lg border border-primary/20 backdrop-blur-sm flex items-center justify-center overflow-hidden shadow-2xl shadow-primary/10">
-                            {currentPlayer.imageUrl ? (
-                                <Image src={currentPlayer.imageUrl} alt={currentPlayer.playerName} width={300} height={400} className="object-cover w-full h-full" />
-                            ) : (
-                                <span className="font-mono text-8xl text-muted-foreground opacity-50">{currentPlayer.playerNumber}</span>
-                            )}
+                        <div className="relative aspect-[3/4] max-w-[350px] mx-auto lg:mx-0 rounded-2xl overflow-hidden shadow-2xl shadow-primary/20 p-1 bg-primary/10">
+                            <div className="bg-background rounded-xl w-full h-full flex items-center justify-center overflow-hidden">
+                                {currentPlayer.imageUrl ? (
+                                    <Image src={currentPlayer.imageUrl} alt={currentPlayer.playerName} width={350} height={467} className="object-cover w-full h-full" />
+                                ) : (
+                                    <span className="font-mono text-8xl text-muted-foreground opacity-50">{currentPlayer.playerNumber}</span>
+                                )}
+                            </div>
                         </div>
                     </motion.div>
 
                     {/* Details Section */}
-                    <div className="w-full lg:w-2/3 flex flex-col items-center lg:items-start text-center lg:text-left">
+                    <div className="w-full lg:w-3/5 flex flex-col items-center lg:items-start text-center lg:text-left">
                         <motion.p
                         initial={{ opacity: 0, scale: 0.5 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: 0.2, duration: 0.3 }}
-                        className="font-mono text-2xl sm:text-4xl font-bold text-muted-foreground"
+                        className="font-mono text-3xl sm:text-5xl font-bold text-primary/80"
                         >
                         #{currentPlayer.playerNumber}
                         </motion.p>
@@ -262,12 +264,12 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
                         initial={{ opacity: 0, y: 50 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.3, duration: 0.4 }}
-                        className="text-5xl sm:text-7xl font-bold font-serif mt-2 truncate text-primary"
+                        className="text-6xl sm:text-8xl font-bold font-serif mt-1 text-shadow-lg shadow-black/50 text-primary"
                         >
                         {currentPlayer.playerName}
                         </motion.h1>
                         <motion.div 
-                            className="w-full max-w-4xl grid grid-cols-2 md:grid-cols-3 gap-4 mt-8 text-base"
+                            className="w-full max-w-4xl grid grid-cols-2 md:grid-cols-3 gap-4 lg:gap-6 mt-8 text-base"
                             initial="hidden"
                             animate="visible"
                             variants={{
@@ -279,33 +281,33 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
                             }}
                         >
                             {currentPlayer.country && 
-                            <motion.div variants={drawnPlayerItemVariants} className="flex flex-col p-3 bg-black/20 rounded-lg border border-primary/20 backdrop-blur-sm">
+                            <motion.div variants={drawnPlayerItemVariants} className="flex flex-col p-4 bg-black/30 rounded-xl border border-primary/20 backdrop-blur-md transition-transform duration-300 hover:scale-105">
                                 <span className="text-sm text-primary font-bold uppercase tracking-wider">Country</span>
-                                <span className="font-semibold text-xl truncate text-foreground/90 mt-1">{currentPlayer.country}</span>
+                                <span className="font-semibold text-xl lg:text-2xl truncate text-foreground/90 mt-1">{currentPlayer.country}</span>
                             </motion.div>
                             }
                             {currentPlayer.specialism && 
-                            <motion.div variants={drawnPlayerItemVariants} className="flex flex-col p-3 bg-black/20 rounded-lg border border-primary/20 backdrop-blur-sm">
+                            <motion.div variants={drawnPlayerItemVariants} className="flex flex-col p-4 bg-black/30 rounded-xl border border-primary/20 backdrop-blur-md transition-transform duration-300 hover:scale-105">
                                 <span className="text-sm text-primary font-bold uppercase tracking-wider">Specialism</span>
-                                <span className="font-semibold text-xl truncate text-foreground/90 mt-1">{currentPlayer.specialism}</span>
+                                <span className="font-semibold text-xl lg:text-2xl truncate text-foreground/90 mt-1">{currentPlayer.specialism}</span>
                             </motion.div>
                             }
                             {currentPlayer.cua && 
-                            <motion.div variants={drawnPlayerItemVariants} className="flex flex-col p-3 bg-black/20 rounded-lg border border-primary/20 backdrop-blur-sm">
+                            <motion.div variants={drawnPlayerItemVariants} className="flex flex-col p-4 bg-black/30 rounded-xl border border-primary/20 backdrop-blur-md transition-transform duration-300 hover:scale-105">
                                 <span className="text-sm text-primary font-bold uppercase tracking-wider">Status</span>
-                                <span className="font-semibold text-xl truncate text-foreground/90 mt-1">{currentPlayer.cua}</span>
+                                <span className="font-semibold text-xl lg:text-2xl truncate text-foreground/90 mt-1">{currentPlayer.cua}</span>
                             </motion.div>
                             }
                             {currentPlayer.reservePrice != null && currentPlayer.reservePrice > 0 &&
-                            <motion.div variants={drawnPlayerItemVariants} className="flex flex-col p-3 bg-black/20 rounded-lg border border-primary/20 backdrop-blur-sm">
+                            <motion.div variants={drawnPlayerItemVariants} className="flex flex-col p-4 bg-black/30 rounded-xl border border-primary/20 backdrop-blur-md transition-transform duration-300 hover:scale-105">
                                 <span className="text-sm text-primary font-bold uppercase tracking-wider">Reserve Price</span>
-                                <span className="font-mono font-semibold text-xl truncate text-foreground">{currentPlayer.reservePrice} Lakh</span>
+                                <span className="font-mono font-semibold text-xl lg:text-2xl truncate text-foreground">{currentPlayer.reservePrice} Lakh</span>
                             </motion.div>
                             }
                             {currentPlayer.points != null &&
-                            <motion.div variants={drawnPlayerItemVariants} className="flex flex-col p-3 bg-black/20 rounded-lg border border-primary/20 backdrop-blur-sm">
+                            <motion.div variants={drawnPlayerItemVariants} className="flex flex-col p-4 bg-black/30 rounded-xl border border-primary/20 backdrop-blur-md transition-transform duration-300 hover:scale-105">
                                 <span className="text-sm text-primary font-bold uppercase tracking-wider">Points</span>
-                                <span className="font-mono font-semibold text-xl truncate text-foreground">{currentPlayer.points}</span>
+                                <span className="font-mono font-semibold text-xl lg:text-2xl truncate text-foreground">{currentPlayer.points}</span>
                             </motion.div>
                             }
                         </motion.div>
