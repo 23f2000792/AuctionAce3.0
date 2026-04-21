@@ -83,9 +83,9 @@ export default function Home() {
       initial="hidden"
       animate="visible"
     >
-      <Card className="bg-card/90 backdrop-blur-sm border-border">
+      <Card className="bg-card/80 backdrop-blur-sm border-border/50">
         <CardHeader>
-          <CardTitle>Select a Player Set</CardTitle>
+          <CardTitle className="font-serif">Select a Player Set</CardTitle>
           <CardDescription>
             {user ? "Choose one of the available sets to begin an auction." : "Choose a set to start an auction or log in to manage your sets."}
           </CardDescription>
@@ -104,9 +104,9 @@ export default function Home() {
                     key={set.id}
                     variants={cardVariants}
                   >
-                    <Card className="hover:border-primary/50 transition-all flex flex-col h-full bg-card hover:-translate-y-1 hover:shadow-lg">
+                    <Card className="hover:border-primary/50 transition-all flex flex-col h-full bg-card hover:-translate-y-1 hover:shadow-lg shadow-primary/10">
                       <CardHeader className="p-4 flex-row items-start justify-between">
-                         <CardTitle className="text-lg truncate font-bold">{set.name}</CardTitle>
+                         <CardTitle className="text-lg truncate font-bold font-serif">{set.name}</CardTitle>
                       </CardHeader>
                       <CardContent className="p-4 pt-0 flex-grow">
                          <div className="flex flex-col items-start text-sm text-muted-foreground">
@@ -115,7 +115,7 @@ export default function Home() {
                          </div>
                       </CardContent>
                       <CardFooter className="p-4 mt-auto flex flex-col gap-2">
-                         <Button asChild className="w-full btn-glow">
+                         <Button asChild className="w-full">
                             <Link href={`/auction/present/${set.id}`}>
                               Start Auction
                             </Link>
@@ -127,18 +127,18 @@ export default function Home() {
               </motion.div>
             ) : (
               <motion.div
-                className="text-center py-16 border-2 border-dashed border-border rounded-lg"
+                className="text-center py-16 border-2 border-dashed border-border rounded-lg bg-background/50"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
               >
                   <Layers className="mx-auto h-12 w-12 text-muted-foreground" />
-                  <h3 className="mt-4 text-lg font-medium font-headline">{user ? "No Sets Found" : "Welcome to Auction Ace"}</h3>
+                  <h3 className="mt-4 text-lg font-medium font-serif">{user ? "No Sets Found" : "Welcome to Paradox"}</h3>
                   <p className="mt-1 text-sm text-muted-foreground">{user ? "Get started by importing players from a CSV." : "Log in to create and manage your player auctions."}</p>
                   
                   {!user && !isUserLoading && (
                     <div className="mt-6">
-                      <Button asChild className="btn-glow">
+                      <Button asChild>
                           <Link href="/login">
                               <Lock className="mr-2" /> Admin Login
                           </Link>

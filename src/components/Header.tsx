@@ -2,7 +2,7 @@
 "use client";
 
 import Link from 'next/link';
-import { Gavel, Users, PlusCircle, LogOut, LogIn, Menu, BookOpen, ShieldCheck, ChevronDown, Upload } from 'lucide-react';
+import { Sparkles, Users, PlusCircle, LogOut, LogIn, Menu, BookOpen, ShieldCheck, ChevronDown, Upload } from 'lucide-react';
 import { Button } from './ui/button';
 import {
   DropdownMenu,
@@ -80,7 +80,7 @@ const Header = () => {
           <LogOut className="mr-2" /> Sign Out
         </Button>
       ) : (
-        <Button asChild className="btn-glow">
+        <Button asChild>
           <Link href="/login" onClick={() => setIsSheetOpen(false)}>
             <LogIn className="mr-2" /> Login
           </Link>
@@ -91,11 +91,11 @@ const Header = () => {
   );
 
   return (
-    <header className="w-full border-b border-border bg-background/80 backdrop-blur-sm z-20 sticky top-0">
+    <header className="w-full border-b border-border/50 bg-background/80 backdrop-blur-sm z-20 sticky top-0">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
-        <Link href="/" className="flex items-center gap-2 group">
-          <Gavel className="h-8 w-8 text-primary transition-transform group-hover:scale-110" />
-          <span className="text-xl font-headline tracking-tighter">Auction Ace</span>
+        <Link href="/" className="flex items-center gap-3 group">
+          <Sparkles className="h-7 w-7 text-primary transition-transform group-hover:scale-110" />
+          <span className="text-2xl font-serif font-bold tracking-tight">Paradox</span>
         </Link>
         
         {/* Desktop Navigation */}
