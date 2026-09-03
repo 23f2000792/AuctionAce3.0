@@ -209,8 +209,9 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
                               { label: 'Origin', value: currentPlayer.country },
                               { label: 'Specialism', value: currentPlayer.specialism },
                               { label: 'Category', value: currentPlayer.cua },
+                              { label: 'Points', value: currentPlayer.points },
                               { label: 'Base Price', value: `${currentPlayer.reservePrice} Lakh` },
-                            ].map((stat, i) => stat.value && (
+                            ].map((stat, i) => (stat.value !== undefined && stat.value !== null && stat.value !== '') && (
                               <motion.div 
                                 key={i}
                                 variants={statItemVariant}
