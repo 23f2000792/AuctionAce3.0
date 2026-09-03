@@ -1,7 +1,7 @@
-
 'use client';
 
-import { Mail } from 'lucide-react';
+import { Mail, ShieldCheck } from 'lucide-react';
+import Link from 'next/link';
 
 const Footer = () => {
   return (
@@ -17,11 +17,23 @@ const Footer = () => {
           </p>
         </div>
         
-        <div className="flex items-center gap-2 text-primary/70 hover:text-primary transition-colors">
-          <Mail className="h-4 w-4" />
-          <a href="mailto:sports@iitmparadox.org" className="text-sm font-medium">
-            sports@iitmparadox.org
-          </a>
+        <div className="flex flex-col sm:flex-row items-center gap-4 text-sm">
+          <div className="flex items-center gap-2 text-primary/70 hover:text-primary transition-colors">
+            <Mail className="h-4 w-4" />
+            <a href="mailto:sports@iitmparadox.org" className="font-medium">
+              sports@iitmparadox.org
+            </a>
+          </div>
+          
+          <div className="hidden sm:block text-primary/20">|</div>
+
+          <Link 
+            href="/ip-policy" 
+            className="flex items-center gap-2 text-primary/70 hover:text-primary transition-colors font-medium"
+          >
+            <ShieldCheck className="h-4 w-4" />
+            IP Notice
+          </Link>
         </div>
 
         <div className="pt-4 border-t border-primary/10 w-full max-w-md">
