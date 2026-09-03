@@ -4,6 +4,7 @@
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 import { FirebaseClientProvider } from '@/firebase';
 import { motion, AnimatePresence } from 'framer-motion';
 import { usePathname } from 'next/navigation';
@@ -38,6 +39,7 @@ export default function RootLayout({
                 {children}
               </motion.main>
             </AnimatePresence>
+            {!isAuctionPage && <Footer />}
           </div>
           <Toaster />
         </FirebaseClientProvider>

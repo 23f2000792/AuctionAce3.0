@@ -2,7 +2,7 @@
 "use client";
 
 import Link from 'next/link';
-import { Sparkles, Users, PlusCircle, LogOut, LogIn, Menu, BookOpen, ShieldCheck, ChevronDown, Upload } from 'lucide-react';
+import { Trophy, Users, PlusCircle, LogOut, LogIn, Menu, BookOpen, ShieldCheck, ChevronDown, Upload } from 'lucide-react';
 import { Button } from './ui/button';
 import {
   DropdownMenu,
@@ -91,11 +91,11 @@ const Header = () => {
   );
 
   return (
-    <header className="w-full border-b border-border/50 bg-background/80 backdrop-blur-sm z-20 sticky top-0">
+    <header className="w-full border-b border-primary/30 bg-background/80 backdrop-blur-sm z-20 sticky top-0">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <Link href="/" className="flex items-center gap-3 group">
-          <Sparkles className="h-7 w-7 text-primary transition-transform group-hover:scale-110" />
-          <span className="text-2xl font-serif font-bold tracking-tight">Paradox Auction</span>
+          <Trophy className="h-7 w-7 text-primary transition-transform group-hover:scale-110" />
+          <span className="text-2xl font-serif font-bold tracking-tight text-primary">Paradox Auction</span>
         </Link>
         
         {/* Desktop Navigation */}
@@ -112,7 +112,7 @@ const Header = () => {
                 <span className="sr-only">Open menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[250px] bg-card/80 backdrop-blur-md">
+            <SheetContent side="right" className="w-[250px] bg-card/80 backdrop-blur-md border-l border-primary/30">
               <nav className="flex flex-col gap-4 pt-8">
                 <NavContent />
               </nav>
