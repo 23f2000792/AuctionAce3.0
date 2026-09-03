@@ -8,14 +8,13 @@ import { Card, CardContent } from './ui/card';
 import { X, Gavel, Users, ChevronsLeft, ChevronsRight, Repeat } from 'lucide-react';
 import { Player, PlayerSet } from '@/lib/player-data';
 import { AnimatePresence, motion } from 'framer-motion';
-import { cn, shuffleArray } from '@/lib/utils';
+import { cn } from '@/lib/utils';
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from '@/components/ui/collapsible';
 import Image from 'next/image';
-
 
 interface FullScreenViewProps {
     players: Player[];
@@ -34,7 +33,6 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
   const drawingInterval = useRef<NodeJS.Timeout>();
   const [drawingDisplayPlayer, setDrawingDisplayPlayer] = useState<Player | null>(null);
 
-  // Reset internal state when the external player list changes (on new shuffle)
   useEffect(() => {
     setUndrawnPlayers([...players]);
     setDrawnPlayers([]);
@@ -53,9 +51,8 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
     if (undrawnPlayers.length === 0 || isDrawing) return;
 
     setIsDrawing(true);
-    setCurrentPlayer(null); // Clear current player for animation
+    setCurrentPlayer(null);
 
-    // Start the "slot machine" animation
     drawingInterval.current = setInterval(() => {
         const randomIndex = Math.floor(Math.random() * undrawnPlayers.length);
         setDrawingDisplayPlayer(undrawnPlayers[randomIndex]);
@@ -70,12 +67,12 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
       setDrawnPlayers(prev => [newDrawnPlayer, ...prev]);
       setUndrawnPlayers(prev => prev.filter(p => p.id !== newDrawnPlayer.id));
       setIsDrawing(false);
-    }, 2500); // Suspense duration
+    }, 2500);
   }, [isDrawing, undrawnPlayers, stopDrawingAnimation]);
   
   const resetAuction = () => {
     stopDrawingAnimation();
-    onReset(); // Call the passed-in reset function
+    onReset();
     setIsDrawing(false);
   }
 
@@ -89,7 +86,6 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
     }, [handleDrawPlayer, router]
   );
 
-
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);
     return () => {
@@ -99,41 +95,20 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
   }, [handleKeyDown, stopDrawingAnimation]);
 
   const cardVariants = {
-    hidden: { opacity: 0, y: 100, scale: 0.8 },
+    hidden: { opacity: 0, y: 50, scale: 0.95 },
     visible: {
       opacity: 1,
       y: 0,
       scale: 1,
-      transition: {
-        duration: 0.5,
-        type: 'spring',
-        stiffness: 80,
-        damping: 15,
-      },
+      transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
     },
-    exit: { opacity: 0, y: -100, scale: 0.8 },
+    exit: { opacity: 0, y: -50, scale: 0.95 },
   };
   
-  const drawnPlayerListVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.05,
-      },
-    },
-  };
-
-  const drawnPlayerItemVariants = {
-    hidden: { opacity: 0, x: -20 },
-    visible: { opacity: 1, x: 0 },
-  };
-
   const statItemVariant = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 },
+    hidden: { opacity: 0, scale: 0.8 },
+    visible: { opacity: 1, scale: 1 },
   };
-
 
   return (
     <div className="fixed inset-0 flex flex-col items-center justify-center p-4 overflow-hidden">
@@ -143,38 +118,20 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
             initial={{ x: '-100%' }}
             animate={{ x: 0 }}
             exit={{ x: '-100%' }}
-            transition={{ duration: 0.3, ease: 'easeInOut' }}
             className="absolute top-0 left-0 h-full z-30 w-72"
           >
-            <div className="h-full w-full bg-background/80 backdrop-blur-sm border-r border-border/50 p-4 space-y-4">
-              <h3 className="text-xl font-bold text-foreground font-serif">
-                Drawn Players ({drawnPlayers.length})
+            <div className="h-full w-full bg-card/95 backdrop-blur-md border-r-4 border-primary p-4 space-y-4 shadow-2xl">
+              <h3 className="text-2xl font-bold text-primary font-serif border-b-2 border-primary pb-2">
+                Sold Roster
               </h3>
-              <AnimatePresence>
-                <motion.ul 
-                  variants={drawnPlayerListVariants}
-                  initial="hidden"
-                  animate="visible"
-                  className="space-y-2 h-[calc(100%-4rem)] overflow-y-auto pr-2"
-                >
-                  {drawnPlayers.map((player, index) => (
-                    <motion.li
-                      key={player.id}
-                      layout
-                      variants={drawnPlayerItemVariants}
-                      className="flex items-center gap-3 p-2 rounded-md bg-muted"
-                    >
-                      <span className="text-sm font-bold text-muted-foreground w-6">
-                        {drawnPlayers.length - index}.
-                      </span>
-                      <span className="font-medium truncate text-foreground">{player.playerName}</span>
-                      <span className="font-mono text-xs text-muted-foreground ml-auto">
-                        #{player.playerNumber}
-                      </span>
-                    </motion.li>
-                  ))}
-                </motion.ul>
-              </AnimatePresence>
+              <ul className="space-y-2 h-[calc(100%-4rem)] overflow-y-auto pr-2 custom-scrollbar">
+                {drawnPlayers.map((player, index) => (
+                  <li key={player.id} className="flex items-center gap-3 p-3 rounded-none bg-secondary/50 border border-primary/30">
+                    <span className="text-xs font-bold text-primary">{drawnPlayers.length - index}.</span>
+                    <span className="font-medium truncate text-foreground">{player.playerName}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
           </motion.div>
         )}
@@ -189,9 +146,9 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
         )}
       >
         <CollapsibleTrigger asChild>
-          <motion.button className="w-5 h-24 bg-primary/80 hover:bg-primary border-y-2 border-r-2 border-primary rounded-r-lg flex items-center justify-center text-primary-foreground">
+          <button className="w-8 h-24 bg-primary text-primary-foreground border-y-2 border-r-2 border-primary/50 flex items-center justify-center shadow-lg">
             {isSidebarOpen ? <ChevronsLeft /> : <ChevronsRight />}
-          </motion.button>
+          </button>
         </CollapsibleTrigger>
       </Collapsible>
 
@@ -199,13 +156,12 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
         variant="ghost"
         size="icon"
         onClick={() => router.push('/')}
-        className="absolute top-4 right-4 h-12 w-12 rounded-full z-40 text-foreground hover:bg-black/10"
+        className="absolute top-6 right-6 h-12 w-12 rounded-none z-40 border-2 border-primary bg-background/50 text-primary hover:bg-primary hover:text-primary-foreground"
       >
         <X className="h-8 w-8" />
-        <span className="sr-only">Exit Full Screen</span>
       </Button>
 
-      <div className="w-full max-w-5xl flex-1 flex flex-col justify-center items-center relative">
+      <div className="w-full max-w-6xl flex-1 flex flex-col justify-center items-center relative py-12">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentPlayer ? currentPlayer.id : 'waiting'}
@@ -215,117 +171,69 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
             exit="exit"
             className="w-full"
           >
-            <Card 
-              className="w-full max-w-6xl flex flex-col items-center justify-center text-center bg-card/60 backdrop-blur-xl border border-primary/20 shadow-lg shadow-primary/10"
-            >
-              <CardContent className="p-6 sm:p-8 md:p-12 w-full">
+            <Card className="w-full ornate-border bg-card/90 backdrop-blur-md shadow-[0_0_50px_rgba(0,0,0,0.5)]">
+              <CardContent className="p-8 sm:p-12 w-full">
                 {isDrawing ? (
-                   <motion.div
-                      key="drawing"
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.8 }}
-                      transition={{ duration: 0.3 }}
-                      className="text-center min-h-[500px] flex flex-col justify-center"
-                    >
-                      <p className="font-mono text-3xl sm:text-5xl font-bold text-muted-foreground animate-pulse">
-                        #{drawingDisplayPlayer?.playerNumber || '??'}
-                      </p>
-                      <h1 className="text-6xl sm:text-8xl mt-2 text-primary font-bold font-serif">
-                        {drawingDisplayPlayer?.playerName || 'Drawing...'}
+                   <div className="text-center min-h-[500px] flex flex-col justify-center items-center">
+                      <div className="w-32 h-32 border-4 border-primary border-t-transparent animate-spin rounded-full mb-8" />
+                      <h1 className="text-6xl sm:text-8xl text-primary font-bold font-serif animate-pulse">
+                        Choosing...
                       </h1>
-                    </motion.div>
+                    </div>
                 ) : currentPlayer ? (
-                  <div className="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-16 w-full min-h-[500px]">
-                    {/* Image Section */}
-                    <motion.div 
-                        className="w-full lg:w-2/5 flex-shrink-0"
-                        initial={{ opacity: 0, scale: 0.5 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: 0.1, duration: 0.5, type: 'spring', stiffness: 50 }}
-                    >
-                        <div className="relative aspect-[3/4] max-w-[400px] mx-auto lg:mx-0 rounded-2xl overflow-hidden shadow-2xl shadow-primary/20 p-1.5 bg-gradient-to-tr from-primary/50 to-accent/50">
-                            <div className="bg-background rounded-xl w-full h-full flex items-center justify-center overflow-hidden">
+                  <div className="flex flex-col lg:flex-row items-center justify-center gap-12 lg:gap-20 w-full">
+                    {/* Artistic Image Frame */}
+                    <div className="w-full lg:w-2/5 flex-shrink-0">
+                        <div className="relative aspect-[3/4] max-w-[400px] mx-auto lg:mx-0 ornate-border">
+                            <div className="bg-background w-full h-full flex items-center justify-center overflow-hidden">
                                 {currentPlayer.imageUrl ? (
-                                    <Image src={currentPlayer.imageUrl} alt={currentPlayer.playerName} fill={true} className="object-cover" />
+                                    <Image src={currentPlayer.imageUrl} alt={currentPlayer.playerName} fill className="object-cover" />
                                 ) : (
-                                    <span className="font-mono text-8xl text-muted-foreground opacity-50">{currentPlayer.playerNumber}</span>
+                                    <span className="font-serif text-9xl text-primary/20">{currentPlayer.playerName[0]}</span>
                                 )}
                             </div>
                         </div>
-                    </motion.div>
+                    </div>
 
-                    {/* Details Section */}
-                    <div className="w-full lg:w-3/5 flex flex-col items-center lg:items-start text-center lg:text-left">
-                        <motion.p
-                        initial={{ opacity: 0, scale: 0.5 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: 0.3, duration: 0.4, type: 'spring' }}
-                        className="font-mono text-4xl sm:text-6xl font-bold text-primary"
-                        >
-                        #{currentPlayer.playerNumber}
-                        </motion.p>
-                        <motion.h1
-                        initial={{ opacity: 0, y: 50 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.4, duration: 0.5, type: 'spring' }}
-                        className="text-6xl sm:text-8xl lg:text-9xl font-bold font-serif mt-1 filter drop-shadow-[0_4px_6px_rgba(0,0,0,0.4)] text-foreground"
-                        >
-                        {currentPlayer.playerName}
-                        </motion.h1>
-                        <motion.div 
-                            className="w-full grid grid-cols-2 md:grid-cols-3 gap-4 lg:gap-6 mt-8 text-base"
-                            initial="hidden"
-                            animate="visible"
-                            variants={{
-                            visible: { 
-                                transition: { delayChildren: 0.6, staggerChildren: 0.1 }
-                            },
-                            }}
-                        >
-                            {currentPlayer.country && 
-                            <motion.div variants={statItemVariant} className="flex flex-col p-4 bg-black/40 rounded-xl border border-primary/20 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:border-primary">
-                                <span className="text-sm text-primary font-bold uppercase tracking-wider">Country</span>
-                                <span className="font-semibold text-xl lg:text-2xl truncate text-foreground/90 mt-1">{currentPlayer.country}</span>
-                            </motion.div>
-                            }
-                            {currentPlayer.specialism && 
-                            <motion.div variants={statItemVariant} className="flex flex-col p-4 bg-black/40 rounded-xl border border-primary/20 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:border-primary">
-                                <span className="text-sm text-primary font-bold uppercase tracking-wider">Specialism</span>
-                                <span className="font-semibold text-xl lg:text-2xl truncate text-foreground/90 mt-1">{currentPlayer.specialism}</span>
-                            </motion.div>
-                            }
-                            {currentPlayer.cua && 
-                            <motion.div variants={statItemVariant} className="flex flex-col p-4 bg-black/40 rounded-xl border border-primary/20 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:border-primary">
-                                <span className="text-sm text-primary font-bold uppercase tracking-wider">Status</span>
-                                <span className="font-semibold text-xl lg:text-2xl truncate text-foreground/90 mt-1">{currentPlayer.cua}</span>
-                            </motion.div>
-                            }
-                            {currentPlayer.reservePrice != null && currentPlayer.reservePrice > 0 &&
-                            <motion.div variants={statItemVariant} className="flex flex-col p-4 bg-black/40 rounded-xl border border-primary/20 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:border-primary">
-                                <span className="text-sm text-primary font-bold uppercase tracking-wider">Reserve Price</span>
-                                <span className="font-mono font-semibold text-xl lg:text-2xl truncate text-foreground">{currentPlayer.reservePrice} Lakh</span>
-                            </motion.div>
-                            }
-                            {currentPlayer.points != null &&
-                            <motion.div variants={statItemVariant} className="flex flex-col p-4 bg-black/40 rounded-xl border border-primary/20 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:border-primary">
-                                <span className="text-sm text-primary font-bold uppercase tracking-wider">Points</span>
-                                <span className="font-mono font-semibold text-xl lg:text-2xl truncate text-foreground">{currentPlayer.points}</span>
-                            </motion.div>
-                            }
-                        </motion.div>
+                    {/* Details in SAAVAN Style */}
+                    <div className="w-full lg:w-3/5 flex flex-col items-center lg:items-start text-center lg:text-left space-y-6">
+                        <div className="space-y-2">
+                          <p className="font-serif text-3xl text-primary tracking-widest uppercase">Lot #{currentPlayer.playerNumber}</p>
+                          <h1 className="text-6xl sm:text-7xl lg:text-8xl font-bold font-serif leading-tight text-foreground filter drop-shadow-[2px_2px_0px_rgba(0,0,0,0.8)]">
+                            {currentPlayer.playerName}
+                          </h1>
+                        </div>
+                        
+                        <div className="w-full grid grid-cols-2 gap-4 mt-8">
+                            {[
+                              { label: 'Origin', value: currentPlayer.country },
+                              { label: 'Specialism', value: currentPlayer.specialism },
+                              { label: 'Category', value: currentPlayer.cua },
+                              { label: 'Base Price', value: `${currentPlayer.reservePrice} Lakh` },
+                            ].map((stat, i) => stat.value && (
+                              <motion.div 
+                                key={i}
+                                variants={statItemVariant}
+                                initial="hidden"
+                                animate="visible"
+                                transition={{ delay: 0.1 * i }}
+                                className="flex flex-col p-4 bg-secondary/30 border-l-4 border-primary"
+                              >
+                                <span className="text-xs text-primary font-bold uppercase tracking-tighter mb-1">{stat.label}</span>
+                                <span className="font-serif text-xl sm:text-2xl text-foreground">{stat.value}</span>
+                              </motion.div>
+                            ))}
+                        </div>
                     </div>
                   </div>
                 ) : (
-                  <div className="text-center min-h-[500px] flex flex-col justify-center">
-                    <Users className="h-24 w-24 sm:h-32 sm:w-32 mx-auto text-muted-foreground" />
-                    <h1 className="text-4xl sm:text-6xl font-bold font-serif mt-4">
-                      {undrawnPlayers.length > 0
-                        ? 'Ready to Draw'
-                        : 'Auction Complete!'}
+                  <div className="text-center min-h-[500px] flex flex-col justify-center items-center space-y-8">
+                    <Gavel className="h-32 w-32 text-primary animate-bounce" />
+                    <h1 className="text-5xl sm:text-7xl font-bold font-serif text-primary">
+                      {undrawnPlayers.length > 0 ? 'Commence Bidding' : 'Auction Concluded'}
                     </h1>
-                     <p className="text-muted-foreground mt-2 text-lg">
-                       {undrawnPlayers.length > 0 ? 'Click "Draw Player" to begin.' : 'All players have been drawn.'}
+                     <p className="text-foreground/70 text-xl font-medium">
+                       {undrawnPlayers.length > 0 ? 'The hammer awaits the first lot.' : 'All portfolios have been allocated.'}
                     </p>
                   </div>
                 )}
@@ -335,31 +243,29 @@ export default function FullScreenView({ players, set, onReset }: FullScreenView
         </AnimatePresence>
       </div>
 
-      <div className="w-full max-w-lg p-4 flex flex-col justify-center items-center gap-4">
+      <div className="w-full max-w-lg p-8 flex flex-col items-center gap-6 z-10">
         {undrawnPlayers.length > 0 ? (
           <Button
             onClick={handleDrawPlayer}
             disabled={isDrawing}
             size="lg"
-            className="h-20 w-80 text-2xl font-bold shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-shadow"
+            className="h-20 w-80 text-3xl font-bold font-serif rounded-none border-4 border-primary shadow-2xl hover:scale-105 transition-transform"
           >
-            <Gavel className="mr-4 h-8 w-8" />
-            {isDrawing ? 'Drawing...' : 'Draw Player'}
+            {isDrawing ? 'Consulting...' : 'Reveal Lot'}
           </Button>
         ) : (
             <Button
               onClick={resetAuction}
               size="lg"
-              className="h-20 w-80 text-2xl font-bold"
               variant="outline"
+              className="h-20 w-80 text-3xl font-bold font-serif rounded-none border-4"
             >
-              <Repeat className="mr-4 h-8 w-8"/>
-              Reset Auction
+              Restart Session
             </Button>
         )}
-        <p className="text-sm text-muted-foreground">
-          {undrawnPlayers.length} / {players.length} players remaining
-        </p>
+        <div className="px-6 py-2 bg-primary text-primary-foreground font-bold tracking-widest text-sm shadow-xl">
+          {undrawnPlayers.length} LOTS REMAINING
+        </div>
       </div>
     </div>
   );
